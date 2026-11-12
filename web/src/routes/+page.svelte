@@ -28,13 +28,22 @@
 
 	{#if data.posts.length > 0}
 		<div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-			{#each data.posts as post (post._id)}
-				<article class="group">
+			{#each data.posts as post, i (post._id)}
+				{@const isWide = i % 5 === 3}
+				<article class={isWide ? 'group lg:col-span-2' : 'group'}>
 					<a href={resolve('/posts/[slug]', { slug: post.slug })} class="block space-y-3">
-						<div class="aspect-[4/3] overflow-hidden rounded-lg bg-zinc-900">
+						<div
+							class={isWide
+								? 'aspect-square overflow-hidden rounded-lg bg-zinc-900 lg:aspect-[2/1]'
+								: 'aspect-square overflow-hidden rounded-lg bg-zinc-900'}
+						>
 							{#if post.coverImage}
 								<img
-									src={urlFor(post.coverImage).width(800).height(600).fit('crop').url()}
+									src={urlFor(post.coverImage)
+										.width(isWide ? 1600 : 800)
+										.height(800)
+										.fit('crop')
+										.url()}
 									alt={post.coverImage.alt || post.title}
 									loading="lazy"
 									class="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]"

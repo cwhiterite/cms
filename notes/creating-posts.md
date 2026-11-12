@@ -52,8 +52,8 @@ npx wrangler r2 object put "blog-media/posts/2026/neon-study/01.jpg" --file=".\0
    * **Published At:** Defaults to now; adjust if needed.
    * **Category:** Pick one (`Design`, `UI/UX`, `3D`, `Photography`, `Illustration`, `Architecture`).
    * **Excerpt:** Short 1–2 sentence summary shown on the homepage grid and `<meta name="description">`.
-   * **Cover Image (Sanity CDN):** Upload the main card/hero image and fill in **Alternative Text**.
-   * **Body:** Write article text and optionally insert inline Sanity images.
+   * **Cover Image (Sanity CDN):** Upload a **`1600×1600`** master image and fill in **Alternative Text**. *(Use Sanity's hotspot picker if needed—the homepage serves `800×800` for 1-column cards and `1600×800` for 2-column wide cards, and the post page serves `1600px` wide.)*
+   * **Body:** Write article text and optionally insert inline Sanity images (`≤1400px` wide recommended).
    * **High-Res Gallery Keys (Cloudflare R2):** Click **Add item** for each R2 image and enter:
      * **R2 Object Key:** `posts/2026/neon-study/01.jpg` *(path only — do NOT paste the full `https://...` domain)*
      * **Alternative Text:** Brief description for accessibility.
