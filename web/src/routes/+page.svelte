@@ -1,0 +1,91 @@
+<script lang="ts">
+	import { urlFor } from '#lib/sanity.ts';
+	import { resolve } from '$app/paths';
+	import type { PageProps } from './$types';
+
+	let { data }: PageProps = $props();
+
+	function formatDate(iso?: string) {
+		if (!iso) return '';
+		return new Date(iso).toLocaleDateString('en-US', {
+			month: 'short',
+			day: 'numeric',
+			year: 'numeric'
+		});
+	}
+</script>
+
+<section class="space-y-8">
+	<div class="flex items-baseline justify-between border-b border-zinc-800 pb-4">
+		<h1 class="text-2xl font-semibold tracking-tight text-white">
+			{data.activeCategory || 'Latest Inspiration'}
+		</h1>
+		<span class="text-xs tracking-wider text-zinc-500 uppercase">
+			{data.posts.length}
+			{data.posts.length === 1 ? 'post' : 'posts'}
+		</span>
+	</div>
+
+	{#if data.posts.length > 0}
+		<div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+			{#each data.posts as post (post._id)}
+				<article class="group">
+					<a href={resolve('/posts/[slug]', { slug: post.slug })} class="block space-y-3">
+						<div class="aspect-[4/3] overflow-hidden rounded-lg bg-zinc-900">
+							{#if post.coverImage}
+								<img
+									src={urlFor(post.coverImage).width(800).height(600).fit('crop').url()}
+									alt={post.coverImage.alt || post.title}
+									loading="lazy"
+									class="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]"
+								/>
+							{:else}
+								<div class="flex h-full items-center justify-center text-sm text-zinc-600">
+									No cover image
+								</div>
+							{/if}
+						</div>
+
+						<div class="space-y-1.5">
+							<div class="flex items-center gap-2 text-xs text-zinc-400">
+								{#if post.category}
+									<span class="font-medium text-zinc-300">{post.category}</span>
+									<span>•</span>
+								{/if}
+								{#if post.publishedAt}
+									<time datetime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
+								{/if}
+							</div>
+
+							<h2
+								class="text-lg leading-snug font-medium text-white transition group-hover:text-zinc-300"
+							>
+								{post.title}
+							</h2>
+
+							{#if post.excerpt}
+								<p class="line-clamp-2 text-sm text-zinc-400">{post.excerpt}</p>
+							{/if}
+						</div>
+					</a>
+				</article>
+			{/each}
+		</div>
+	{:else}
+		<div class="rounded-xl border border-dashed border-zinc-800 bg-zinc-900/40 p-12 text-center">
+			<p class="text-zinc-300">No published posts found yet.</p>
+			<p class="mt-2 text-sm text-zinc-500">
+				Publish your first post in
+				<a
+					href="https://cwhiterite.sanity.studio/"
+					target="_blank"
+					rel="noreferrer"
+					class="text-zinc-200 underline underline-offset-4 hover:text-white"
+				>
+					Sanity Studio
+				</a>
+				and refresh this page.
+			</p>
+		</div>
+	{/if}
+</section>

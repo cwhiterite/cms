@@ -1,0 +1,15 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Dependencies
+node_modules/
+
+# Env (never commit secrets/local env)
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Logs
+*.log

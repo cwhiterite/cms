@@ -1,0 +1,100 @@
+import { createClient } from '@sanity/client';
+import { createImageUrlBuilder } from '@sanity/image-url';
+import type { InputValue } from '@portabletext/svelte';
+import {
+	PUBLIC_R2_BASE_URL,
+	PUBLIC_SANITY_DATASET,
+	PUBLIC_SANITY_PROJECT_ID
+} from '$app/env/public';
+
+export const sanity = createClient({
+	projectId: PUBLIC_SANITY_PROJECT_ID,
+	dataset: PUBLIC_SANITY_DATASET,
+	apiVersion: '2026-01-01',
+	useCdn: true
+});
+
+const builder = createImageUrlBuilder(sanity);
+
+export type SanityImage = Parameters<typeof builder.image>[0] & {
+	alt?: string;
+};
+
+export interface R2GalleryItem {
+	_key: string;
+	r2Key: string;
+	alt?: string;
+	caption?: string;
+}
+
+export interface PostSummary {
+	_id: string;
+	title: string;
+	slug: string;
+	publishedAt?: string;
+	category?: string;
+	excerpt?: string;
+	coverImage?: SanityImage;
+}
+
+export interface PostDetail extends PostSummary {
+	r2Gallery?: R2GalleryItem[];
+	body?: InputValue;
+}
+
+export const CATEGORIES = [
+	'Design',
+	'UI/UX',
+	'3D',
+	'Photography',
+	'Illustration',
+	'Architecture'
+] as const;
+
+export function urlFor(source: SanityImage) {
+	return builder.image(source).auto('format');
+}
+
+export function r2Url(key: string) {
+	const base = PUBLIC_R2_BASE_URL.replace(/\/$/, '');
+	const cleanKey = key.replace(/^\//, '');
+	return `${base}/${cleanKey}`;
+}
+
+export const postsQuery = `
+	*[_type == "post" && defined(slug.current) && ($category == "" || category == $category)]
+	| order(publishedAt desc)[0...24] {
+		_id,
+		title,
+		"slug": slug.current,
+		publishedAt,
+		category,
+		excerpt,
+		coverImage {
+			...,
+			alt
+		}
+	}
+`;
+
+export const postBySlugQuery = `
+	*[_type == "post" && slug.current == $slug][0] {
+		_id,
+		title,
+		"slug": slug.current,
+		publishedAt,
+		category,
+		excerpt,
+		coverImage {
+			...,
+			alt
+		},
+		r2Gallery[] {
+			_key,
+			r2Key,
+			alt,
+			caption
+		},
+		body
+	}
+`;
