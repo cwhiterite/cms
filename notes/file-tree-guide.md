@@ -12,6 +12,8 @@ This project uses two main folders inside `cms/`:
 
 | Service | Details |
 | :--- | :--- |
+| **Live Site (Cloudflare Pages)** | `https://cms-41w.pages.dev/` |
+| **GitHub Repo** | `https://github.com/cwhiterite/cms` (`main` branch auto-deploys `web/`) |
 | **Sanity Project ID** | `jsv8msl0` (`production` dataset) |
 | **Sanity Studio URL** | `https://cwhiterite.sanity.studio/` |
 | **Cloudflare R2 Bucket** | `blog-media` |
@@ -44,8 +46,9 @@ You only need to touch these when changing what fields a post has:
   * Builds full R2 URLs via `r2Url(key)` using `PUBLIC_R2_BASE_URL`.
   * Holds your GROQ queries (`postsQuery`, `postBySlugQuery`) and `CATEGORIES` list.
 * **`web/.env`** *(gitignored — local only)*
-  Holds `PUBLIC_SANITY_PROJECT_ID`, `PUBLIC_SANITY_DATASET`, and `PUBLIC_R2_BASE_URL`.
-  *(Copy these same values into Cloudflare Pages → Settings → Environment variables when deploying.)*
+  Holds `PUBLIC_SANITY_PROJECT_ID`, `PUBLIC_SANITY_DATASET`, and `PUBLIC_R2_BASE_URL` for local development.
+* **`web/wrangler.jsonc`**
+  Cloudflare Pages config (`pages_build_output_dir: .svelte-kit/cloudflare`) plus public `"vars"` used in production.
 * **`web/.env.example`**
   Template showing which environment variables the app needs.
 
@@ -70,8 +73,8 @@ These are auto-generated or tool/build configs you normally never edit by hand:
 * `node_modules/` — Installed npm packages.
 * `web/.svelte-kit/` — SvelteKit build/type cache.
 * `web/worker-configuration.d.ts` — Auto-generated Cloudflare Worker types (`npm run gen`).
-* `web/src/env.ts` — Declares public env vars for SvelteKit 3 (`defineEnvVars`).
-* `web/vite.config.ts`, `web/wrangler.jsonc`, `web/tsconfig.json`, `web/eslint.config.js`, `web/prettier.config.js`, `package-lock.json`.
+* `web/src/env.ts` — Declares public env vars and fallback defaults for SvelteKit 3 (`defineEnvVars`).
+* `web/vite.config.ts`, `web/tsconfig.json`, `web/eslint.config.js`, `web/prettier.config.js`, `package-lock.json`.
 
 ---
 
