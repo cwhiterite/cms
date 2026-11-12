@@ -3,5 +3,10 @@
 	"name": "web",
 	"compatibility_date": "2026-11-12",
 	"compatibility_flags": ["nodejs_als"],
-	"pages_build_output_dir": ".svelte-kit/cloudflare"
+	"pages_build_output_dir": ".svelte-kit/cloudflare",
+	"vars": {
+		"PUBLIC_SANITY_PROJECT_ID": "jsv8msl0",
+		"PUBLIC_SANITY_DATASET": "production",
+		"PUBLIC_R2_BASE_URL": "https://pub-110cf5f016a3427785e66eefdb5710df.r2.dev"
+	}
 }
