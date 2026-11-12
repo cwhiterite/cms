@@ -18,7 +18,7 @@
 <section class="space-y-8">
 	<div class="flex items-baseline justify-between border-b border-zinc-800 pb-4">
 		<h1 class="text-2xl font-semibold tracking-tight text-white">
-			{data.activeCategory || 'Latest Inspiration'}
+			{data.activeTag || 'Latest Inspiration'}
 		</h1>
 		<span class="text-xs tracking-wider text-zinc-500 uppercase">
 			{data.posts.length}
@@ -57,7 +57,10 @@
 
 						<div class="space-y-1.5">
 							<div class="flex items-center gap-2 text-xs text-zinc-400">
-								{#if post.category}
+								{#if post.tags?.length}
+									<span class="font-medium text-zinc-300">{post.tags.join(' • ')}</span>
+									<span>•</span>
+								{:else if post.category}
 									<span class="font-medium text-zinc-300">{post.category}</span>
 									<span>•</span>
 								{/if}

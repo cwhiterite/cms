@@ -1,7 +1,7 @@
 <script lang="ts">
 	import './layout.css';
 	import favicon from '#lib/assets/favicon.svg';
-	import { CATEGORIES } from '#lib/sanity.ts';
+	import { TAGS } from '#lib/sanity.ts';
 	import { resolve } from '$app/paths';
 	import type { LayoutProps } from './$types';
 
@@ -29,13 +29,13 @@
 				>
 					All
 				</a>
-				{#each CATEGORIES as category (category)}
+				{#each TAGS as tag (tag)}
 					<!-- eslint-disable svelte/no-navigation-without-resolve -->
 					<a
-						href={`${resolve('/')}?category=${encodeURIComponent(category)}`}
+						href={`${resolve('/')}?tag=${encodeURIComponent(tag)}`}
 						class="rounded-full px-3 py-1 transition hover:bg-zinc-900 hover:text-white"
 					>
-						{category}
+						{tag}
 					</a>
 					<!-- eslint-enable svelte/no-navigation-without-resolve -->
 				{/each}

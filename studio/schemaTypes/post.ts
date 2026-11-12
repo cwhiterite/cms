@@ -21,10 +21,20 @@ export const postType = defineType({
       initialValue: () => new Date().toISOString(),
     }),
     defineField({
-      name: 'category',
-      type: 'string',
+      name: 'tags',
+      title: 'Tags',
+      description: 'Select one or more tags for this post',
+      type: 'array',
+      of: [{type: 'string'}],
       options: {
-        list: ['Design', 'UI/UX', '3D', 'Photography', 'Illustration', 'Architecture'],
+        list: [
+          {title: 'Design', value: 'Design'},
+          {title: 'UI/UX', value: 'UI/UX'},
+          {title: '3D', value: '3D'},
+          {title: 'Photography', value: 'Photography'},
+          {title: 'Illustration', value: 'Illustration'},
+          {title: 'Architecture', value: 'Architecture'},
+        ],
       },
     }),
     defineField({
@@ -149,8 +159,17 @@ export const postType = defineType({
   preview: {
     select: {
       title: 'title',
-      subtitle: 'category',
+      tags: 'tags',
+      category: 'category',
       media: 'coverImage',
+    },
+    prepare({title, tags, category, media}) {
+      const tagSubtitle = Array.isArray(tags) && tags.length > 0 ? tags.join(', ') : category
+      return {
+        title,
+        subtitle: tagSubtitle,
+        media,
+      }
     },
   },
 })

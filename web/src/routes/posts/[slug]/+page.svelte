@@ -33,8 +33,17 @@
 			← Back to feed
 		</a>
 
-		<div class="flex items-center gap-2 text-xs tracking-wider text-zinc-400 uppercase">
-			{#if data.post.category}
+		<div class="flex flex-wrap items-center gap-2 text-xs tracking-wider text-zinc-400 uppercase">
+			{#if data.post.tags?.length}
+				{#each data.post.tags as tag (tag)}
+					<a
+						href={`${resolve('/')}?tag=${encodeURIComponent(tag)}`}
+						class="rounded-full bg-zinc-900 px-2.5 py-0.5 text-zinc-200 transition hover:bg-zinc-800 hover:text-white"
+					>
+						{tag}
+					</a>
+				{/each}
+			{:else if data.post.category}
 				<span class="rounded-full bg-zinc-900 px-2.5 py-0.5 text-zinc-200"
 					>{data.post.category}</span
 				>

@@ -38,6 +38,7 @@ export interface PostSummary {
 	slug: string;
 	publishedAt?: string;
 	category?: string;
+	tags?: string[];
 	excerpt?: string;
 	coverImage?: SanityImage;
 }
@@ -48,7 +49,7 @@ export interface PostDetail extends PostSummary {
 	body?: InputValue;
 }
 
-export const CATEGORIES = [
+export const TAGS = [
 	'Design',
 	'UI/UX',
 	'3D',
@@ -56,6 +57,8 @@ export const CATEGORIES = [
 	'Illustration',
 	'Architecture'
 ] as const;
+
+export const CATEGORIES = TAGS;
 
 export function urlFor(source: SanityImage) {
 	return builder.image(source).auto('format');
@@ -68,13 +71,18 @@ export function r2Url(key: string) {
 }
 
 export const postsQuery = `
-	*[_type == "post" && defined(slug.current) && ($category == "" || category == $category)]
+	*[_type == "post" && defined(slug.current) && (
+		$selectedTag == "" ||
+		(defined(tags) && $selectedTag in tags) ||
+		category == $selectedTag
+	)]
 	| order(publishedAt desc)[0...24] {
 		_id,
 		title,
 		"slug": slug.current,
 		publishedAt,
 		category,
+		tags,
 		excerpt,
 		coverImage {
 			...,
@@ -90,6 +98,7 @@ export const postBySlugQuery = `
 		"slug": slug.current,
 		publishedAt,
 		category,
+		tags,
 		excerpt,
 		coverImage {
 			...,

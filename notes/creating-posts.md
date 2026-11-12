@@ -51,7 +51,7 @@ npx wrangler r2 object put "blog-media/posts/2026/neon-study/01.jpg" --file=".\0
    * **Title:** Post headline.
    * **Slug:** Click **Generate** (this sets `/posts/<your-slug>`).
    * **Published At:** Defaults to now; adjust if needed.
-   * **Category:** Pick one (`Design`, `UI/UX`, `3D`, `Photography`, `Illustration`, `Architecture`).
+   * **Tags:** Select one or multiple tags (`Design`, `UI/UX`, `3D`, `Photography`, `Illustration`, `Architecture`). The post will appear under each selected tag's feed as well as on the homepage feed.
    * **Excerpt:** Short 1–2 sentence summary shown on the homepage grid and `<meta name="description">`.
    * **Cover Image (Sanity CDN):** Upload a **`1600×1600`** master image and fill in **Alternative Text**. *(Use Sanity's hotspot picker if needed—the homepage serves `800×800` for 1-column cards and `1600×800` for 2-column wide cards, and the post page serves `1600px` wide.)*
    * **Secondary Images (Sanity CDN):** Upload 1–10 images directly via drag & drop or file browse (with optional alternative text and captions). Perfect for standard posts without needing R2.
@@ -74,10 +74,10 @@ npx wrangler r2 object put "blog-media/posts/2026/neon-study/01.jpg" --file=".\0
 
 ---
 
-## Adding or Renaming Categories
+## Adding or Renaming Tags
 
-Categories are defined in two places so Studio dropdowns and site navigation stay in sync:
+Tags are defined in two places so Studio checkboxes and site navigation stay in sync:
 
-1. **`studio/schemaTypes/post.ts`** — update the `category` field's `options.list` array, then run `npx sanity deploy` inside `studio/`.
-2. **`web/src/lib/sanity.ts`** — update the `CATEGORIES` array so the navbar filter links match.
+1. **`studio/schemaTypes/post.ts`** — update the `tags` field's `options.list` array, then run `npx sanity deploy` inside `studio/`.
+2. **`web/src/lib/sanity.ts`** — update the `TAGS` array so the navbar filter links match.
 

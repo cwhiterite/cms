@@ -2,9 +2,9 @@ import { postsQuery, sanity, type PostSummary } from '#lib/sanity.ts';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ url, setHeaders }) => {
-	const activeCategory = url.searchParams.get('category') ?? '';
+	const activeTag = url.searchParams.get('tag') ?? url.searchParams.get('category') ?? '';
 	const posts = await sanity.fetch<PostSummary[]>(postsQuery, {
-		category: activeCategory
+		selectedTag: activeTag
 	});
 
 	setHeaders({
@@ -13,6 +13,6 @@ export const load: PageServerLoad = async ({ url, setHeaders }) => {
 
 	return {
 		posts,
-		activeCategory
+		activeTag
 	};
 };
