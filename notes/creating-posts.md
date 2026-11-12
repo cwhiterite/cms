@@ -1,9 +1,10 @@
 # Creating & Publishing a Blog Post
 
-Your blog splits media into two places to keep quality high and costs at \$0:
+Your blog supports three ways to add visual media:
 
-1. **Sanity CDN (`coverImage` & inline `body` images):** Drag-and-drop directly in Sanity Studio. Sanity automatically resizes and serves WebP/AVIF.
-2. **Cloudflare R2 (`r2Gallery`):** Used for high-res visual galleries, large design showcases, or downloadable assets with zero egress fees.
+1. **Sanity CDN Cover & Secondary Images (`coverImage` & `gallery`):** Drag-and-drop directly in Sanity Studio. Best for standard posts with 1–10 secondary images. Sanity automatically resizes and serves optimized WebP/AVIF without needing Cloudflare R2.
+2. **Sanity CDN Inline Images (`body`):** Insert images directly between paragraphs in the rich text editor (with alt text and captions).
+3. **Cloudflare R2 (`r2Gallery`):** Used for large 10+ image high-res showcases, large photography collections, or downloadable assets to bypass CMS quotas with zero egress fees.
 
 ---
 
@@ -53,8 +54,9 @@ npx wrangler r2 object put "blog-media/posts/2026/neon-study/01.jpg" --file=".\0
    * **Category:** Pick one (`Design`, `UI/UX`, `3D`, `Photography`, `Illustration`, `Architecture`).
    * **Excerpt:** Short 1–2 sentence summary shown on the homepage grid and `<meta name="description">`.
    * **Cover Image (Sanity CDN):** Upload a **`1600×1600`** master image and fill in **Alternative Text**. *(Use Sanity's hotspot picker if needed—the homepage serves `800×800` for 1-column cards and `1600×800` for 2-column wide cards, and the post page serves `1600px` wide.)*
-   * **Body:** Write article text and optionally insert inline Sanity images (`≤1400px` wide recommended).
-   * **High-Res Gallery Keys (Cloudflare R2):** Click **Add item** for each R2 image and enter:
+   * **Secondary Images (Sanity CDN):** Upload 1–10 images directly via drag & drop or file browse (with optional alternative text and captions). Perfect for standard posts without needing R2.
+   * **Body:** Write article text and optionally insert inline Sanity images (`≤1400px` wide recommended) with captions.
+   * **High-Res Gallery Keys (Cloudflare R2):** Optional for large 10+ image sets. Click **Add item** for each R2 image and enter:
      * **R2 Object Key:** `posts/2026/neon-study/01.jpg` *(path only — do NOT paste the full `https://...` domain)*
      * **Alternative Text:** Brief description for accessibility.
      * **Caption:** Optional caption shown below the image.

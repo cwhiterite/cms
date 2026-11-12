@@ -18,6 +18,11 @@ const builder = createImageUrlBuilder(sanity);
 
 export type SanityImage = Parameters<typeof builder.image>[0] & {
 	alt?: string;
+	caption?: string;
+};
+
+export type SanityGalleryItem = SanityImage & {
+	_key: string;
 };
 
 export interface R2GalleryItem {
@@ -38,6 +43,7 @@ export interface PostSummary {
 }
 
 export interface PostDetail extends PostSummary {
+	gallery?: SanityGalleryItem[];
 	r2Gallery?: R2GalleryItem[];
 	body?: InputValue;
 }
@@ -88,6 +94,12 @@ export const postBySlugQuery = `
 		coverImage {
 			...,
 			alt
+		},
+		gallery[] {
+			_key,
+			...,
+			alt,
+			caption
 		},
 		r2Gallery[] {
 			_key,

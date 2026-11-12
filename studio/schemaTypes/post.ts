@@ -46,6 +46,48 @@ export const postType = defineType({
       ],
     }),
     defineField({
+      name: 'gallery',
+      title: 'Secondary Images (Sanity CDN)',
+      description: 'Upload 1–10 images directly to Sanity CDN (drag & drop or browse; no R2 needed)',
+      type: 'array',
+      options: {
+        layout: 'grid',
+      },
+      of: [
+        defineArrayMember({
+          type: 'image',
+          options: {hotspot: true},
+          fields: [
+            defineField({
+              name: 'alt',
+              title: 'Alternative Text',
+              type: 'string',
+            }),
+            defineField({
+              name: 'caption',
+              title: 'Caption',
+              type: 'string',
+            }),
+          ],
+          preview: {
+            select: {
+              title: 'caption',
+              subtitle: 'alt',
+              media: 'asset',
+            },
+            prepare({title, subtitle, media}) {
+              return {
+                title: title || subtitle || 'Image',
+                subtitle: title ? subtitle : undefined,
+                media,
+              }
+            },
+          },
+        }),
+      ],
+      validation: (rule) => rule.max(10),
+    }),
+    defineField({
       name: 'r2Gallery',
       title: 'High-Res Gallery Keys (Cloudflare R2)',
       description: 'Object keys/paths in your R2 bucket (e.g., posts/2026/neon-study/01.jpg)',
@@ -92,6 +134,11 @@ export const postType = defineType({
             defineField({
               name: 'alt',
               title: 'Alternative Text',
+              type: 'string',
+            }),
+            defineField({
+              name: 'caption',
+              title: 'Caption',
               type: 'string',
             }),
           ],

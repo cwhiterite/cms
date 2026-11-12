@@ -71,6 +71,24 @@
 		</div>
 	{/if}
 
+	{#if data.post.gallery?.length}
+		<section class="space-y-8 border-t border-zinc-800 pt-10">
+			{#each data.post.gallery as item (item._key)}
+				<figure class="space-y-2">
+					<img
+						src={urlFor(item).width(1600).url()}
+						alt={item.alt || data.post.title}
+						loading="lazy"
+						class="w-full rounded-lg bg-zinc-900 object-cover"
+					/>
+					{#if item.caption}
+						<figcaption class="text-center text-sm text-zinc-400">{item.caption}</figcaption>
+					{/if}
+				</figure>
+			{/each}
+		</section>
+	{/if}
+
 	{#if data.post.r2Gallery?.length}
 		<section class="space-y-8 border-t border-zinc-800 pt-10">
 			{#each data.post.r2Gallery as item (item._key)}
