@@ -29,13 +29,13 @@
 				>
 					All
 				</a>
-				{#each TAGS as tag (tag)}
+				{#each TAGS as tag (tag.value)}
 					<!-- eslint-disable svelte/no-navigation-without-resolve -->
 					<a
-						href={`${resolve('/')}?tag=${encodeURIComponent(tag)}`}
+						href={`${resolve('/')}?tag=${encodeURIComponent(tag.value)}`}
 						class="rounded-full px-3 py-1 transition hover:bg-zinc-900 hover:text-white"
 					>
-						{tag}
+						{tag.label}
 					</a>
 					<!-- eslint-enable svelte/no-navigation-without-resolve -->
 				{/each}

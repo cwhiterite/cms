@@ -28,12 +28,12 @@ export const postType = defineType({
       of: [{type: 'string'}],
       options: {
         list: [
-          {title: 'Design', value: 'Design'},
-          {title: 'UI/UX', value: 'UI/UX'},
-          {title: '3D', value: '3D'},
-          {title: 'Photography', value: 'Photography'},
-          {title: 'Illustration', value: 'Illustration'},
-          {title: 'Architecture', value: 'Architecture'},
+          {title: 'Design', value: 'design'},
+          {title: 'UI/UX', value: 'ux'},
+          {title: '3D', value: '3d'},
+          {title: 'Photography', value: 'photography'},
+          {title: 'Illustration', value: 'illustration'},
+          {title: 'Architecture', value: 'architecture'},
         ],
       },
     }),
@@ -164,7 +164,18 @@ export const postType = defineType({
       media: 'coverImage',
     },
     prepare({title, tags, category, media}) {
-      const tagSubtitle = Array.isArray(tags) && tags.length > 0 ? tags.join(', ') : category
+      const tagLabels: Record<string, string> = {
+        design: 'Design',
+        ux: 'UI/UX',
+        '3d': '3D',
+        photography: 'Photography',
+        illustration: 'Illustration',
+        architecture: 'Architecture',
+      }
+      const tagSubtitle =
+        Array.isArray(tags) && tags.length > 0
+          ? tags.map((t) => tagLabels[t] || t).join(', ')
+          : category
       return {
         title,
         subtitle: tagSubtitle,

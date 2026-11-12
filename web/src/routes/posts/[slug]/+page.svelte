@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { PortableText } from '@portabletext/svelte';
 	import PortableImage from '#lib/components/PortableImage.svelte';
-	import { r2Url, urlFor } from '#lib/sanity.ts';
+	import { r2Url, tagLabel, urlFor } from '#lib/sanity.ts';
 	import { resolve } from '$app/paths';
 	import type { PageProps } from './$types';
 
@@ -37,15 +37,15 @@
 			{#if data.post.tags?.length}
 				{#each data.post.tags as tag (tag)}
 					<a
-						href={`${resolve('/')}?tag=${encodeURIComponent(tag)}`}
+						href={`${resolve('/')}?tag=${encodeURIComponent(tag.toLowerCase())}`}
 						class="rounded-full bg-zinc-900 px-2.5 py-0.5 text-zinc-200 transition hover:bg-zinc-800 hover:text-white"
 					>
-						{tag}
+						{tagLabel(tag)}
 					</a>
 				{/each}
 			{:else if data.post.category}
 				<span class="rounded-full bg-zinc-900 px-2.5 py-0.5 text-zinc-200"
-					>{data.post.category}</span
+					>{tagLabel(data.post.category)}</span
 				>
 			{/if}
 			{#if data.post.publishedAt}
@@ -63,7 +63,7 @@
 	</header>
 
 	{#if data.post.coverImage}
-		<figure class="overflow-hidden rounded-xl bg-zinc-900">
+		<figure class="overflow-hidden bg-zinc-900">
 			<img
 				src={urlFor(data.post.coverImage).width(1600).url()}
 				alt={data.post.coverImage.alt || data.post.title}
@@ -88,7 +88,7 @@
 						src={urlFor(item).width(1600).url()}
 						alt={item.alt || data.post.title}
 						loading="lazy"
-						class="w-full rounded-lg bg-zinc-900 object-cover"
+						class="w-full bg-zinc-900 object-cover"
 					/>
 					{#if item.caption}
 						<figcaption class="text-center text-sm text-zinc-400">{item.caption}</figcaption>
@@ -106,7 +106,7 @@
 						src={r2Url(item.r2Key)}
 						alt={item.alt || data.post.title}
 						loading="lazy"
-						class="w-full rounded-lg bg-zinc-900 object-cover"
+						class="w-full bg-zinc-900 object-cover"
 					/>
 					{#if item.caption}
 						<figcaption class="text-center text-sm text-zinc-400">{item.caption}</figcaption>

@@ -49,16 +49,29 @@ export interface PostDetail extends PostSummary {
 	body?: InputValue;
 }
 
-export const TAGS = [
-	'Design',
-	'UI/UX',
-	'3D',
-	'Photography',
-	'Illustration',
-	'Architecture'
-] as const;
+export interface TagItem {
+	label: string;
+	value: string;
+}
+
+export const TAGS: TagItem[] = [
+	{ label: 'Design', value: 'design' },
+	{ label: 'UI/UX', value: 'ux' },
+	{ label: '3D', value: '3d' },
+	{ label: 'Photography', value: 'photography' },
+	{ label: 'Illustration', value: 'illustration' },
+	{ label: 'Architecture', value: 'architecture' }
+];
 
 export const CATEGORIES = TAGS;
+
+export function tagLabel(value?: string): string {
+	if (!value) return '';
+	const match = TAGS.find((t) => t.value.toLowerCase() === value.toLowerCase());
+	if (match) return match.label;
+	if (value.toLowerCase() === 'ui/ux') return 'UI/UX';
+	return value;
+}
 
 export function urlFor(source: SanityImage) {
 	return builder.image(source).auto('format');
@@ -73,8 +86,12 @@ export function r2Url(key: string) {
 export const postsQuery = `
 	*[_type == "post" && defined(slug.current) && (
 		$selectedTag == "" ||
-		(defined(tags) && $selectedTag in tags) ||
-		category == $selectedTag
+		(defined(tags) && (
+			$selectedTag in tags ||
+			($selectedTag == "ux" && "UI/UX" in tags)
+		)) ||
+		category == $selectedTag ||
+		($selectedTag == "ux" && category == "UI/UX")
 	)]
 	| order(publishedAt desc)[0...24] {
 		_id,

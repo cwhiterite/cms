@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { urlFor } from '#lib/sanity.ts';
+	import { tagLabel, urlFor } from '#lib/sanity.ts';
 	import { resolve } from '$app/paths';
 	import type { PageProps } from './$types';
 
@@ -18,7 +18,7 @@
 <section class="space-y-8">
 	<div class="flex items-baseline justify-between border-b border-zinc-800 pb-4">
 		<h1 class="text-2xl font-semibold tracking-tight text-white">
-			{data.activeTag || 'Latest Inspiration'}
+			{tagLabel(data.activeTag) || 'Latest Inspiration'}
 		</h1>
 		<span class="text-xs tracking-wider text-zinc-500 uppercase">
 			{data.posts.length}
@@ -34,8 +34,8 @@
 					<a href={resolve('/posts/[slug]', { slug: post.slug })} class="block space-y-3">
 						<div
 							class={isWide
-								? 'aspect-square overflow-hidden rounded-lg bg-zinc-900 lg:aspect-[2/1]'
-								: 'aspect-square overflow-hidden rounded-lg bg-zinc-900'}
+								? 'aspect-square overflow-hidden bg-zinc-900 lg:aspect-[2/1]'
+								: 'aspect-square overflow-hidden bg-zinc-900'}
 						>
 							{#if post.coverImage}
 								<img
@@ -58,10 +58,12 @@
 						<div class="space-y-1.5">
 							<div class="flex items-center gap-2 text-xs text-zinc-400">
 								{#if post.tags?.length}
-									<span class="font-medium text-zinc-300">{post.tags.join(' • ')}</span>
+									<span class="font-medium text-zinc-300"
+										>{post.tags.map((t) => tagLabel(t)).join(' • ')}</span
+									>
 									<span>•</span>
 								{:else if post.category}
-									<span class="font-medium text-zinc-300">{post.category}</span>
+									<span class="font-medium text-zinc-300">{tagLabel(post.category)}</span>
 									<span>•</span>
 								{/if}
 								{#if post.publishedAt}
