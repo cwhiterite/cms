@@ -56,23 +56,41 @@
 	});
 
 	let navEl: HTMLElement | undefined = $state();
-	let canScrollLeft = $state(false);
-	let canScrollRight = $state(false);
+	let firstSetEl: HTMLElement | undefined = $state();
+	let isWrapping = false;
 
-	function checkScroll() {
-		if (!navEl) return;
-		const { scrollLeft, scrollWidth, clientWidth } = navEl;
-		canScrollLeft = scrollLeft > 6;
-		canScrollRight = scrollLeft < scrollWidth - clientWidth - 6;
+	const navCategories = [{ label: 'All', value: '' }, ...TAGS];
+
+	function getSingleSetWidth(): number {
+		if (!firstSetEl) return 0;
+		return firstSetEl.offsetWidth + 8;
+	}
+
+	function handleScroll() {
+		if (!navEl || isWrapping) return;
+		const singleSetWidth = getSingleSetWidth();
+		if (singleSetWidth <= 0) return;
+
+		// Wrap seamlessly when scrolling right past the middle set
+		if (navEl.scrollLeft >= singleSetWidth * 2) {
+			isWrapping = true;
+			navEl.scrollLeft -= singleSetWidth;
+			isWrapping = false;
+		}
+		// Wrap seamlessly when scrolling left before the middle set
+		else if (navEl.scrollLeft <= singleSetWidth * 0.2) {
+			isWrapping = true;
+			navEl.scrollLeft += singleSetWidth;
+			isWrapping = false;
+		}
 	}
 
 	$effect(() => {
-		if (navEl) {
-			checkScroll();
-			window.addEventListener('resize', checkScroll);
-			return () => {
-				window.removeEventListener('resize', checkScroll);
-			};
+		if (navEl && firstSetEl) {
+			const singleSetWidth = getSingleSetWidth();
+			if (singleSetWidth > 0 && navEl.scrollLeft === 0) {
+				navEl.scrollLeft = singleSetWidth;
+			}
 		}
 	});
 
@@ -136,53 +154,55 @@
 				</nav>
 			</div>
 
-			<!-- Mobile & Tablet horizontal swipe rail with edge fade hints (< lg) -->
+			<!-- Mobile & Tablet infinite horizontal swipe rail with dual-edge fade (< lg) -->
 			<div class="relative -mx-4 sm:-mx-6 lg:hidden">
-				<!-- Left fade indicator (appears when scrolled right) -->
+				<!-- Permanent left fade indicator -->
 				<div
 					aria-hidden="true"
-					class="pointer-events-none absolute top-0 bottom-2.5 left-0 z-10 w-8 transition-opacity duration-200 {canScrollLeft
-						? 'opacity-100'
-						: 'opacity-0'}"
+					class="pointer-events-none absolute top-0 bottom-2.5 left-0 z-10 w-8"
 					style="background: linear-gradient(to right, var(--page-bg), transparent);"
 				></div>
 
-				<!-- Right fade indicator (indicates more links continue off-screen) -->
+				<!-- Permanent right fade indicator -->
 				<div
 					aria-hidden="true"
-					class="pointer-events-none absolute top-0 right-0 bottom-2.5 z-10 w-12 transition-opacity duration-200 {canScrollRight
-						? 'opacity-100'
-						: 'opacity-0'}"
+					class="pointer-events-none absolute top-0 right-0 bottom-2.5 z-10 w-8"
 					style="background: linear-gradient(to left, var(--page-bg), transparent);"
 				></div>
 
-				<nav
-					bind:this={navEl}
-					onscroll={checkScroll}
-					aria-label="Category filters"
-					class="no-scrollbar flex items-center gap-2 overflow-x-auto px-4 pb-2.5 sm:px-6"
-				>
-					<a
-						href={resolve('/')}
-						class="shrink-0 px-3.5 py-1 text-sm transition {currentTag === ''
-							? 'font-normal text-(--text-primary)'
-							: 'font-normal text-(--text-secondary) hover:text-(--nav-hover)'}"
-					>
-						All
-					</a>
-					{#each TAGS as tag (tag.value)}
+				{#snippet tagItems(isDuplicate: boolean)}
+					{#each navCategories as cat (cat.value)}
 						<!-- eslint-disable svelte/no-navigation-without-resolve -->
 						<a
-							href={`${resolve('/')}?tag=${encodeURIComponent(tag.value)}`}
-							class="shrink-0 px-3.5 py-1 text-sm transition {currentTag === tag.value
+							href={cat.value
+								? `${resolve('/')}?tag=${encodeURIComponent(cat.value)}`
+								: resolve('/')}
+							tabindex={isDuplicate ? -1 : undefined}
+							class="shrink-0 px-3.5 py-1 text-sm transition {currentTag === cat.value
 								? 'font-normal text-(--text-primary)'
 								: 'font-normal text-(--text-secondary) hover:text-(--nav-hover)'}"
 						>
-							{tag.label}
+							{cat.label}
 						</a>
 						<!-- eslint-enable svelte/no-navigation-without-resolve -->
 					{/each}
-					<span class="w-4 shrink-0" aria-hidden="true"></span>
+				{/snippet}
+
+				<nav
+					bind:this={navEl}
+					onscroll={handleScroll}
+					aria-label="Category filters"
+					class="no-scrollbar flex items-center gap-2 overflow-x-auto px-4 pb-2.5 sm:px-6"
+				>
+					<div bind:this={firstSetEl} class="flex shrink-0 items-center gap-2" aria-hidden="true">
+						{@render tagItems(true)}
+					</div>
+					<div class="flex shrink-0 items-center gap-2">
+						{@render tagItems(false)}
+					</div>
+					<div class="flex shrink-0 items-center gap-2" aria-hidden="true">
+						{@render tagItems(true)}
+					</div>
 				</nav>
 			</div>
 		</div>
