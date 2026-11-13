@@ -1,4 +1,5 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {ColorInputWithEyedropper} from '../components/ColorInputWithEyedropper'
 
 export const postType = defineType({
   name: 'post',
@@ -54,6 +55,18 @@ export const postType = defineType({
           type: 'string',
         }),
       ],
+    }),
+    defineField({
+      name: 'backgroundColor',
+      title: 'Post Background Color',
+      description: 'Optional custom background color for this post page. Pick visually, type/paste a hex code (e.g. #18181b), or sample directly from the image.',
+      type: 'color',
+      options: {
+        disableAlpha: true,
+      },
+      components: {
+        input: ColorInputWithEyedropper,
+      },
     }),
     defineField({
       name: 'gallery',

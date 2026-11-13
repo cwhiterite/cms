@@ -6,6 +6,8 @@
 
 	let { data }: PageProps = $props();
 
+	let postBg = $derived(data.post.backgroundColor?.hex);
+
 	function formatDate(iso?: string) {
 		if (!iso) return '';
 		return new Date(iso).toLocaleDateString('en-US', {
@@ -20,6 +22,10 @@
 	<title>{data.post.title}</title>
 	{#if data.post.excerpt}
 		<meta name="description" content={data.post.excerpt} />
+	{/if}
+	{#if postBg}
+		<meta name="theme-color" content={postBg} />
+		{@html `<style>:root { --page-bg: ${postBg}; }</style>`}
 	{/if}
 </svelte:head>
 

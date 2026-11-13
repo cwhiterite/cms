@@ -44,6 +44,9 @@ export interface PostSummary {
 }
 
 export interface PostDetail extends PostSummary {
+	backgroundColor?: {
+		hex?: string;
+	};
 	gallery?: SanityGalleryItem[];
 	r2Gallery?: R2GalleryItem[];
 	body?: InputValue;
@@ -130,6 +133,9 @@ export const postBySlugQuery = `
 		coverImage {
 			...,
 			alt
+		},
+		backgroundColor {
+			hex
 		},
 		gallery[] {
 			_key,

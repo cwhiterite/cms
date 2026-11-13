@@ -1,11 +1,16 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
+:root {
+	--page-bg: #09090b;
+}
+
 html,
 body {
-	background-color: #09090b;
+	background-color: var(--page-bg);
 	color: #f4f4f5;
 	min-height: 100%;
+	transition: background-color 0.3s ease;
 }
 
 /* View transitions for image morphing between feed and post */

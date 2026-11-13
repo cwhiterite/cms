@@ -25,9 +25,10 @@
 	<title>Inspiration Feed</title>
 </svelte:head>
 
-<div class="min-h-screen bg-zinc-950 text-zinc-100 antialiased">
+<div class="min-h-screen text-zinc-100 antialiased" style="background-color: var(--page-bg);">
 	<header
-		class="sticky top-0 z-20 border-b border-zinc-800/80 bg-zinc-950/90 pt-[env(safe-area-inset-top)] backdrop-blur"
+		class="sticky top-0 z-20 border-b border-zinc-800/80 pt-[env(safe-area-inset-top)] backdrop-blur transition-colors duration-300"
+		style="background-color: color-mix(in srgb, var(--page-bg) 88%, transparent);"
 	>
 		<div class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
 			<a href={resolve('/')} class="text-lg font-semibold tracking-tight text-white">
