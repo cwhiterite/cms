@@ -94,8 +94,8 @@
 				<nav class="hidden items-center gap-1 text-sm text-(--text-secondary) lg:flex">
 					<a
 						href={resolve('/')}
-						class="rounded-full px-3 py-1 transition {currentTag === ''
-							? 'bg-(--badge-bg) font-medium text-(--text-primary)'
+						class="px-3 py-1 transition {currentTag === ''
+							? 'font-normal text-(--text-primary)'
 							: 'hover:text-(--nav-hover)'}"
 					>
 						All
@@ -104,8 +104,8 @@
 						<!-- eslint-disable svelte/no-navigation-without-resolve -->
 						<a
 							href={`${resolve('/')}?tag=${encodeURIComponent(tag.value)}`}
-							class="rounded-full px-3 py-1 transition {currentTag === tag.value
-								? 'bg-(--badge-bg) font-medium text-(--text-primary)'
+							class="px-3 py-1 transition {currentTag === tag.value
+								? 'font-normal text-(--text-primary)'
 								: 'hover:text-(--nav-hover)'}"
 						>
 							{tag.label}
@@ -122,9 +122,9 @@
 			>
 				<a
 					href={resolve('/')}
-					class="shrink-0 rounded-full px-3.5 py-1 text-xs transition {currentTag === ''
-						? 'bg-(--text-primary) font-semibold text-(--page-bg)'
-						: 'bg-(--badge-bg) font-medium text-(--text-secondary) hover:text-(--nav-hover)'}"
+					class="shrink-0 px-3.5 py-1 text-sm transition {currentTag === ''
+						? 'font-normal text-(--text-primary)'
+						: 'font-normal text-(--text-secondary) hover:text-(--nav-hover)'}"
 				>
 					All
 				</a>
@@ -132,9 +132,9 @@
 					<!-- eslint-disable svelte/no-navigation-without-resolve -->
 					<a
 						href={`${resolve('/')}?tag=${encodeURIComponent(tag.value)}`}
-						class="shrink-0 rounded-full px-3.5 py-1 text-xs transition {currentTag === tag.value
-							? 'bg-(--text-primary) font-semibold text-(--page-bg)'
-							: 'bg-(--badge-bg) font-medium text-(--text-secondary) hover:text-(--nav-hover)'}"
+						class="shrink-0 px-3.5 py-1 text-sm transition {currentTag === tag.value
+							? 'font-normal text-(--text-primary)'
+							: 'font-normal text-(--text-secondary) hover:text-(--nav-hover)'}"
 					>
 						{tag.label}
 					</a>
