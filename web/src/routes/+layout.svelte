@@ -3,9 +3,21 @@
 	import favicon from '#lib/assets/favicon.svg';
 	import { TAGS } from '#lib/sanity.ts';
 	import { resolve } from '$app/paths';
+	import { onNavigate } from '$app/navigation';
 	import type { LayoutProps } from './$types';
 
 	let { children }: LayoutProps = $props();
+
+	onNavigate((navigation) => {
+		if (!document.startViewTransition) return;
+
+		return new Promise((resolve) => {
+			document.startViewTransition(async () => {
+				resolve();
+				await navigation.complete;
+			});
+		});
+	});
 </script>
 
 <svelte:head>

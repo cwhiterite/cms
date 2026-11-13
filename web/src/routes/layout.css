@@ -1,2 +1,13 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
+
+/* View transitions for image morphing between feed and post */
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation-duration: 0.25s;
+}
+
+::view-transition-group(*) {
+	animation-duration: 0.45s;
+	animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}

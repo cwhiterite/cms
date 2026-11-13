@@ -34,7 +34,7 @@
 					<a href={resolve('/posts/[slug]', { slug: post.slug })} class="block space-y-3">
 						<div
 							class={isWide
-								? 'aspect-square overflow-hidden bg-zinc-900 lg:aspect-[2/1]'
+								? 'aspect-square overflow-hidden bg-zinc-900 lg:aspect-2/1'
 								: 'aspect-square overflow-hidden bg-zinc-900'}
 						>
 							{#if post.coverImage}
@@ -45,6 +45,7 @@
 										.fit('crop')
 										.url()}
 									alt={post.coverImage.alt || post.title}
+									style="view-transition-name: cover-{post.slug};"
 									loading="lazy"
 									class="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]"
 								/>
@@ -55,19 +56,19 @@
 							{/if}
 						</div>
 
-						<div class="space-y-1.5">
+						<div class="space-y-2.5">
 							<div class="flex items-center gap-2 text-xs text-zinc-400">
 								{#if post.tags?.length}
-									<span class="font-medium text-zinc-300"
-										>{post.tags.map((t) => tagLabel(t)).join(' • ')}</span
-									>
-									<span>•</span>
-								{:else if post.category}
-									<span class="font-medium text-zinc-300">{tagLabel(post.category)}</span>
-									<span>•</span>
+									{#each post.tags as tag (tag)}
+										<span class="bg-zinc-900 px-2.5 py-0.5 text-zinc-200"
+											>{tagLabel(tag).toUpperCase()}</span
+										>
+									{/each}
 								{/if}
 								{#if post.publishedAt}
-									<time datetime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
+									<time datetime={post.publishedAt}
+										>{formatDate(post.publishedAt).toUpperCase()}</time
+									>
 								{/if}
 							</div>
 
@@ -86,7 +87,7 @@
 			{/each}
 		</div>
 	{:else}
-		<div class="rounded-xl border border-dashed border-zinc-800 bg-zinc-900/40 p-12 text-center">
+		<div class="border border-dashed border-zinc-800 bg-zinc-900/40 p-12 text-center">
 			<p class="text-zinc-300">No published posts found yet.</p>
 			<p class="mt-2 text-sm text-zinc-500">
 				Publish your first post in

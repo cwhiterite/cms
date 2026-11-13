@@ -26,7 +26,7 @@
 <article class="mx-auto max-w-4xl lg:max-w-7xl">
 	<div class={data.post.coverImage ? 'lg:grid lg:grid-cols-12 lg:items-start lg:gap-12' : ''}>
 		<!-- Left column: scrolls through header, body text, and secondary galleries -->
-		<div class={data.post.coverImage ? 'space-y-10 lg:col-span-7' : 'space-y-10'}>
+		<div class={data.post.coverImage ? 'space-y-10 lg:col-span-5' : 'space-y-10'}>
 			<header class="space-y-4">
 				<div
 					class="flex flex-wrap items-center gap-2 text-xs tracking-wider text-zinc-400 uppercase"
@@ -56,6 +56,7 @@
 					<img
 						src={urlFor(data.post.coverImage).width(1600).url()}
 						alt={data.post.coverImage.alt || data.post.title}
+						style="view-transition-name: cover-{data.post.slug};"
 						class="w-full object-cover"
 					/>
 				</figure>
@@ -108,11 +109,12 @@
 
 		<!-- Right column: fixed/sticky cover image on desktop (>= lg: 1024px) -->
 		{#if data.post.coverImage}
-			<div class="hidden lg:sticky lg:top-[6.5rem] lg:col-span-5 lg:block lg:self-start">
+			<div class="hidden lg:sticky lg:top-26 lg:col-span-7 lg:block lg:self-start">
 				<figure class="overflow-hidden bg-zinc-900">
 					<img
 						src={urlFor(data.post.coverImage).width(1600).url()}
 						alt={data.post.coverImage.alt || data.post.title}
+						style="view-transition-name: cover-{data.post.slug};"
 						class="aspect-square w-full object-cover"
 					/>
 				</figure>
