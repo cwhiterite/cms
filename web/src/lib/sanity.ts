@@ -73,6 +73,15 @@ export function tagLabel(value?: string): string {
 	return value;
 }
 
+export function tagSlug(value?: string): string {
+	if (!value) return '';
+	const match = TAGS.find(
+		(t) =>
+			t.value.toLowerCase() === value.toLowerCase() || t.label.toLowerCase() === value.toLowerCase()
+	);
+	return match ? match.value : value.toLowerCase();
+}
+
 export function urlFor(source: SanityImage) {
 	return builder.image(source).auto('format');
 }
@@ -88,10 +97,11 @@ export const postsQuery = `
 		$selectedTag == "" ||
 		(defined(tags) && (
 			$selectedTag in tags ||
-			($selectedTag == "ux" && "UI/UX" in tags)
+			count(tags[lower(@) == lower($selectedTag)]) > 0 ||
+			($selectedTag == "ux" && count(tags[lower(@) in ["ux", "ui/ux"]]) > 0)
 		)) ||
-		category == $selectedTag ||
-		($selectedTag == "ux" && category == "UI/UX")
+		lower(category) == lower($selectedTag) ||
+		($selectedTag == "ux" && lower(category) in ["ux", "ui/ux"])
 	)]
 	| order(publishedAt desc)[0...24] {
 		_id,

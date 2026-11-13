@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { PortableText } from '@portabletext/svelte';
 	import PortableImage from '#lib/components/PortableImage.svelte';
-	import { r2Url, tagLabel, urlFor } from '#lib/sanity.ts';
+	import { r2Url, tagLabel, tagSlug, urlFor } from '#lib/sanity.ts';
 	import { resolve } from '$app/paths';
 	import type { PageProps } from './$types';
 
@@ -36,12 +36,14 @@
 		<div class="flex flex-wrap items-center gap-2 text-xs tracking-wider text-zinc-400 uppercase">
 			{#if data.post.tags?.length}
 				{#each data.post.tags as tag (tag)}
+					<!-- eslint-disable svelte/no-navigation-without-resolve -->
 					<a
-						href={`${resolve('/')}?tag=${encodeURIComponent(tag.toLowerCase())}`}
+						href={`${resolve('/')}?tag=${encodeURIComponent(tagSlug(tag))}`}
 						class="rounded-full bg-zinc-900 px-2.5 py-0.5 text-zinc-200 transition hover:bg-zinc-800 hover:text-white"
 					>
 						{tagLabel(tag)}
 					</a>
+					<!-- eslint-enable svelte/no-navigation-without-resolve -->
 				{/each}
 			{:else if data.post.category}
 				<span class="rounded-full bg-zinc-900 px-2.5 py-0.5 text-zinc-200"
