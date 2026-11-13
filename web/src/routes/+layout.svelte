@@ -34,6 +34,9 @@
 	const post = $derived((page.data as { post?: PostDetail })?.post);
 	const postBg = $derived(sanitizeHex(post?.backgroundColor?.hex));
 	const isCustomLight = $derived(postBg ? isLightColor(postBg) : null);
+	const currentTag = $derived(
+		page.url.pathname === '/' ? (page.url.searchParams.get('tag') ?? '') : null
+	);
 
 	const customThemeStyle = $derived(
 		postBg
@@ -73,33 +76,71 @@
 </svelte:head>
 
 <div
-	class="min-h-screen text-[var(--text-primary)] antialiased transition-colors duration-300"
+	class="min-h-screen text-(--text-primary) antialiased transition-colors duration-300"
 	style="background-color: var(--page-bg); {customThemeStyle ?? ''}"
 >
 	<header
-		class="sticky top-0 z-20 border-b border-[var(--border-color)] pt-[env(safe-area-inset-top)] backdrop-blur transition-colors duration-300"
+		class="sticky top-0 z-20 border-b border-(--border-color) pt-[env(safe-area-inset-top)] backdrop-blur transition-colors duration-300"
 		style="background-color: var(--header-bg);"
 	>
-		<div class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
-			<a
-				href={resolve('/')}
-				class="text-lg font-semibold tracking-tight text-[var(--text-primary)]"
-			>
-				Studio<span class="text-[var(--text-muted)]">Feed</span>
-			</a>
+		<div class="mx-auto max-w-7xl px-4 sm:px-6">
+			<!-- Top row: logo + desktop links (>= lg: 1024px) -->
+			<div class="flex h-14 items-center justify-between lg:h-16">
+				<a href={resolve('/')} class="text-lg font-semibold tracking-tight text-(--text-primary)">
+					Studio<span class="text-(--text-muted)">Feed</span>
+				</a>
 
-			<nav class="flex flex-wrap items-center gap-2 text-sm text-[var(--text-secondary)]">
-				<a href={resolve('/')} class="px-3 py-1 transition hover:text-[var(--nav-hover)]"> All </a>
+				<!-- Desktop navigation (>= lg) -->
+				<nav class="hidden items-center gap-1 text-sm text-(--text-secondary) lg:flex">
+					<a
+						href={resolve('/')}
+						class="rounded-full px-3 py-1 transition {currentTag === ''
+							? 'bg-(--badge-bg) font-medium text-(--text-primary)'
+							: 'hover:text-(--nav-hover)'}"
+					>
+						All
+					</a>
+					{#each TAGS as tag (tag.value)}
+						<!-- eslint-disable svelte/no-navigation-without-resolve -->
+						<a
+							href={`${resolve('/')}?tag=${encodeURIComponent(tag.value)}`}
+							class="rounded-full px-3 py-1 transition {currentTag === tag.value
+								? 'bg-(--badge-bg) font-medium text-(--text-primary)'
+								: 'hover:text-(--nav-hover)'}"
+						>
+							{tag.label}
+						</a>
+						<!-- eslint-enable svelte/no-navigation-without-resolve -->
+					{/each}
+				</nav>
+			</div>
+
+			<!-- Mobile & Tablet horizontal swipe rail (< lg) -->
+			<nav
+				aria-label="Category filters"
+				class="no-scrollbar -mx-4 flex items-center gap-2 overflow-x-auto px-4 pb-2.5 sm:-mx-6 sm:px-6 lg:hidden"
+			>
+				<a
+					href={resolve('/')}
+					class="shrink-0 rounded-full px-3.5 py-1 text-xs transition {currentTag === ''
+						? 'bg-(--text-primary) font-semibold text-(--page-bg)'
+						: 'bg-(--badge-bg) font-medium text-(--text-secondary) hover:text-(--nav-hover)'}"
+				>
+					All
+				</a>
 				{#each TAGS as tag (tag.value)}
 					<!-- eslint-disable svelte/no-navigation-without-resolve -->
 					<a
 						href={`${resolve('/')}?tag=${encodeURIComponent(tag.value)}`}
-						class="px-3 py-1 transition hover:text-[var(--nav-hover)]"
+						class="shrink-0 rounded-full px-3.5 py-1 text-xs transition {currentTag === tag.value
+							? 'bg-(--text-primary) font-semibold text-(--page-bg)'
+							: 'bg-(--badge-bg) font-medium text-(--text-secondary) hover:text-(--nav-hover)'}"
 					>
 						{tag.label}
 					</a>
 					<!-- eslint-enable svelte/no-navigation-without-resolve -->
 				{/each}
+				<span class="w-2 shrink-0" aria-hidden="true"></span>
 			</nav>
 		</div>
 	</header>

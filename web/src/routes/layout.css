@@ -41,6 +41,15 @@ body {
 		color 0.3s ease;
 }
 
+/* Hide scrollbars for horizontal touch rails */
+.no-scrollbar {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+
 /* View transitions for image morphing between feed and post */
 ::view-transition-old(root),
 ::view-transition-new(root) {

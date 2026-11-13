@@ -57,13 +57,11 @@
 		<div class={data.post.coverImage ? 'space-y-10 lg:col-span-5' : 'space-y-10'}>
 			<header class="space-y-4">
 				<div
-					class="flex flex-wrap items-center gap-2 text-xs tracking-wider text-[var(--text-muted)] uppercase"
+					class="flex flex-wrap items-center gap-2 text-xs tracking-wider text-(--text-muted) uppercase"
 				>
 					{#if data.post.tags?.length}
 						{#each data.post.tags as tag (tag)}
-							<span class="bg-[var(--badge-bg)] px-2.5 py-0.5 text-[var(--badge-text)]"
-								>{tagLabel(tag)}</span
-							>
+							<span class="bg-(--badge-bg) px-2.5 py-0.5 text-(--badge-text)">{tagLabel(tag)}</span>
 						{/each}
 					{/if}
 					{#if data.post.publishedAt}
@@ -72,19 +70,19 @@
 				</div>
 
 				<h1
-					class="text-5xl leading-tight font-semibold tracking-tight text-[var(--text-primary)] sm:text-5xl"
+					class="text-5xl leading-tight font-semibold tracking-tight text-(--text-primary) sm:text-5xl"
 				>
 					{data.post.title}
 				</h1>
 
 				{#if data.post.excerpt}
-					<p class="text-lg leading-relaxed text-[var(--text-secondary)]">{data.post.excerpt}</p>
+					<p class="text-lg leading-relaxed text-(--text-secondary)">{data.post.excerpt}</p>
 				{/if}
 			</header>
 
 			<!-- Mobile / tablet cover image (< lg) -->
 			{#if data.post.coverImage}
-				<figure class="overflow-hidden bg-[var(--card-placeholder-bg)] lg:hidden">
+				<figure class="overflow-hidden bg-(--card-placeholder-bg) lg:hidden">
 					<img
 						src={urlFor(data.post.coverImage).width(1600).url()}
 						alt={data.post.coverImage.alt || data.post.title}
@@ -107,17 +105,17 @@
 			{/if}
 
 			{#if data.post.gallery?.length}
-				<section class="space-y-8 border-t border-[var(--border-color)] pt-10">
+				<section class="space-y-8 border-t border-(--border-color) pt-10">
 					{#each data.post.gallery as item (item._key)}
 						<figure class="space-y-2">
 							<img
 								src={urlFor(item).width(1600).url()}
 								alt={item.alt || data.post.title}
 								loading="lazy"
-								class="w-full bg-[var(--card-placeholder-bg)] object-cover"
+								class="w-full bg-(--card-placeholder-bg) object-cover"
 							/>
 							{#if item.caption}
-								<figcaption class="text-center text-sm text-[var(--text-muted)]">
+								<figcaption class="text-center text-sm text-(--text-muted)">
 									{item.caption}
 								</figcaption>
 							{/if}
@@ -127,17 +125,17 @@
 			{/if}
 
 			{#if data.post.r2Gallery?.length}
-				<section class="space-y-8 border-t border-[var(--border-color)] pt-10">
+				<section class="space-y-8 border-t border-(--border-color) pt-10">
 					{#each data.post.r2Gallery as item (item._key)}
 						<figure class="space-y-2">
 							<img
 								src={r2Url(item.r2Key)}
 								alt={item.alt || data.post.title}
 								loading="lazy"
-								class="w-full bg-[var(--card-placeholder-bg)] object-cover"
+								class="w-full bg-(--card-placeholder-bg) object-cover"
 							/>
 							{#if item.caption}
-								<figcaption class="text-center text-sm text-[var(--text-muted)]">
+								<figcaption class="text-center text-sm text-(--text-muted)">
 									{item.caption}
 								</figcaption>
 							{/if}
@@ -150,7 +148,7 @@
 		<!-- Right column: fixed/sticky cover image on desktop (>= lg: 1024px) -->
 		{#if data.post.coverImage}
 			<div class="hidden lg:sticky lg:top-26 lg:col-span-7 lg:block lg:self-start">
-				<figure class="overflow-hidden bg-[var(--card-placeholder-bg)]">
+				<figure class="overflow-hidden bg-(--card-placeholder-bg)">
 					<img
 						src={urlFor(data.post.coverImage).width(1600).url()}
 						alt={data.post.coverImage.alt || data.post.title}
