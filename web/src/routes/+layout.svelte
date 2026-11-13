@@ -130,7 +130,7 @@
 				</a>
 
 				<!-- Desktop navigation (>= lg) -->
-				<nav class="hidden items-center gap-1 text-sm text-(--text-secondary) lg:flex">
+				<nav class="hidden items-center gap-1 text-regular text-(--text-secondary) lg:flex">
 					<a
 						href={resolve('/')}
 						class="px-3 py-1 transition {currentTag === ''
@@ -178,7 +178,7 @@
 								? `${resolve('/')}?tag=${encodeURIComponent(cat.value)}`
 								: resolve('/')}
 							tabindex={isDuplicate ? -1 : undefined}
-							class="shrink-0 px-3.5 py-1 text-sm transition {currentTag === cat.value
+							class="shrink-0 px-3.5 py-1 text-regular transition {currentTag === cat.value
 								? 'font-normal text-(--text-primary)'
 								: 'font-normal text-(--text-secondary) hover:text-(--nav-hover)'}"
 						>
