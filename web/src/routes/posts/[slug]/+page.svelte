@@ -6,7 +6,18 @@
 
 	let { data }: PageProps = $props();
 
+	function isLightColor(hex: string): boolean {
+		const c = hex.replace('#', '');
+		if (c.length < 6) return false;
+		const r = parseInt(c.substring(0, 2), 16) || 0;
+		const g = parseInt(c.substring(2, 4), 16) || 0;
+		const b = parseInt(c.substring(4, 6), 16) || 0;
+		const yiq = (r * 299 + g * 587 + b * 114) / 1000;
+		return yiq >= 128;
+	}
+
 	let postBg = $derived(data.post.backgroundColor?.hex);
+	let isCustomLight = $derived(postBg ? isLightColor(postBg) : null);
 
 	function formatDate(iso?: string) {
 		if (!iso) return '';
@@ -25,7 +36,35 @@
 	{/if}
 	{#if postBg}
 		<meta name="theme-color" content={postBg} />
-		{@html `<style>:root { --page-bg: ${postBg}; }</style>`}
+		{#if isCustomLight}
+			{@html `<style>
+				:root {
+					--page-bg: ${postBg};
+					--text-primary: #09090b;
+					--text-secondary: #52525b;
+					--text-muted: #71717a;
+					--border-color: rgba(0, 0, 0, 0.12);
+					--badge-bg: rgba(0, 0, 0, 0.06);
+					--badge-text: #18181b;
+					--header-bg: color-mix(in srgb, ${postBg} 85%, transparent);
+					--nav-hover: #09090b;
+				}
+			</style>`}
+		{:else}
+			{@html `<style>
+				:root {
+					--page-bg: ${postBg};
+					--text-primary: #ffffff;
+					--text-secondary: #a1a1aa;
+					--text-muted: #71717a;
+					--border-color: rgba(255, 255, 255, 0.15);
+					--badge-bg: rgba(255, 255, 255, 0.1);
+					--badge-text: #f4f4f5;
+					--header-bg: color-mix(in srgb, ${postBg} 85%, transparent);
+					--nav-hover: #ffffff;
+				}
+			</style>`}
+		{/if}
 	{/if}
 </svelte:head>
 
@@ -35,11 +74,13 @@
 		<div class={data.post.coverImage ? 'space-y-10 lg:col-span-5' : 'space-y-10'}>
 			<header class="space-y-4">
 				<div
-					class="flex flex-wrap items-center gap-2 text-xs tracking-wider text-zinc-400 uppercase"
+					class="flex flex-wrap items-center gap-2 text-xs tracking-wider text-[var(--text-muted)] uppercase"
 				>
 					{#if data.post.tags?.length}
 						{#each data.post.tags as tag (tag)}
-							<span class="bg-zinc-900 px-2.5 py-0.5 text-zinc-200">{tagLabel(tag)}</span>
+							<span class="bg-[var(--badge-bg)] px-2.5 py-0.5 text-[var(--badge-text)]"
+								>{tagLabel(tag)}</span
+							>
 						{/each}
 					{/if}
 					{#if data.post.publishedAt}
@@ -47,18 +88,20 @@
 					{/if}
 				</div>
 
-				<h1 class="text-5xl leading-tight font-semibold tracking-tight text-white sm:text-5xl">
+				<h1
+					class="text-5xl leading-tight font-semibold tracking-tight text-[var(--text-primary)] sm:text-5xl"
+				>
 					{data.post.title}
 				</h1>
 
 				{#if data.post.excerpt}
-					<p class="text-lg leading-relaxed text-zinc-400">{data.post.excerpt}</p>
+					<p class="text-lg leading-relaxed text-[var(--text-secondary)]">{data.post.excerpt}</p>
 				{/if}
 			</header>
 
 			<!-- Mobile / tablet cover image (< lg) -->
 			{#if data.post.coverImage}
-				<figure class="overflow-hidden bg-zinc-900 lg:hidden">
+				<figure class="overflow-hidden bg-[var(--card-placeholder-bg)] lg:hidden">
 					<img
 						src={urlFor(data.post.coverImage).width(1600).url()}
 						alt={data.post.coverImage.alt || data.post.title}
@@ -70,24 +113,30 @@
 
 			{#if Array.isArray(data.post.body) ? data.post.body.length > 0 : Boolean(data.post.body)}
 				<div
-					class="prose prose-lg max-w-none prose-invert prose-headings:font-semibold prose-a:text-zinc-200"
+					class={postBg
+						? isCustomLight
+							? 'prose prose-lg max-w-none prose-headings:font-semibold'
+							: 'prose prose-lg max-w-none prose-invert prose-headings:font-semibold'
+						: 'prose prose-lg max-w-none dark:prose-invert prose-headings:font-semibold'}
 				>
 					<PortableText value={data.post.body} components={{ types: { image: PortableImage } }} />
 				</div>
 			{/if}
 
 			{#if data.post.gallery?.length}
-				<section class="space-y-8 border-t border-zinc-800 pt-10">
+				<section class="space-y-8 border-t border-[var(--border-color)] pt-10">
 					{#each data.post.gallery as item (item._key)}
 						<figure class="space-y-2">
 							<img
 								src={urlFor(item).width(1600).url()}
 								alt={item.alt || data.post.title}
 								loading="lazy"
-								class="w-full bg-zinc-900 object-cover"
+								class="w-full bg-[var(--card-placeholder-bg)] object-cover"
 							/>
 							{#if item.caption}
-								<figcaption class="text-center text-sm text-zinc-400">{item.caption}</figcaption>
+								<figcaption class="text-center text-sm text-[var(--text-muted)]">
+									{item.caption}
+								</figcaption>
 							{/if}
 						</figure>
 					{/each}
@@ -95,17 +144,19 @@
 			{/if}
 
 			{#if data.post.r2Gallery?.length}
-				<section class="space-y-8 border-t border-zinc-800 pt-10">
+				<section class="space-y-8 border-t border-[var(--border-color)] pt-10">
 					{#each data.post.r2Gallery as item (item._key)}
 						<figure class="space-y-2">
 							<img
 								src={r2Url(item.r2Key)}
 								alt={item.alt || data.post.title}
 								loading="lazy"
-								class="w-full bg-zinc-900 object-cover"
+								class="w-full bg-[var(--card-placeholder-bg)] object-cover"
 							/>
 							{#if item.caption}
-								<figcaption class="text-center text-sm text-zinc-400">{item.caption}</figcaption>
+								<figcaption class="text-center text-sm text-[var(--text-muted)]">
+									{item.caption}
+								</figcaption>
 							{/if}
 						</figure>
 					{/each}
@@ -116,7 +167,7 @@
 		<!-- Right column: fixed/sticky cover image on desktop (>= lg: 1024px) -->
 		{#if data.post.coverImage}
 			<div class="hidden lg:sticky lg:top-26 lg:col-span-7 lg:block lg:self-start">
-				<figure class="overflow-hidden bg-zinc-900">
+				<figure class="overflow-hidden bg-[var(--card-placeholder-bg)]">
 					<img
 						src={urlFor(data.post.coverImage).width(1600).url()}
 						alt={data.post.coverImage.alt || data.post.title}

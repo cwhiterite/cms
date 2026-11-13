@@ -1,5 +1,4 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
-import {ColorInputWithReset} from '../components/ColorInputWithReset'
 
 export const postType = defineType({
   name: 'post',
@@ -59,13 +58,10 @@ export const postType = defineType({
     defineField({
       name: 'backgroundColor',
       title: 'Post Background Color',
-      description: 'Optional custom background color for this post page. Pick visually, type/paste a hex code (e.g. #18181b), or leave blank for default dark theme.',
+      description: 'Optional custom background color for this post page. Pick visually, type/paste a hex code (e.g. #18181b), or delete/leave blank for default system theme (white in light mode, black in dark mode).',
       type: 'color',
       options: {
         disableAlpha: true,
-      },
-      components: {
-        input: ColorInputWithReset,
       },
     }),
     defineField({

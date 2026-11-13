@@ -2,15 +2,43 @@
 @plugin '@tailwindcss/typography';
 
 :root {
-	--page-bg: #09090b;
+	/* Light mode default (white background) */
+	--page-bg: #ffffff;
+	--text-primary: #09090b;
+	--text-secondary: #52525b;
+	--text-muted: #71717a;
+	--border-color: #e4e4e7;
+	--badge-bg: #f4f4f5;
+	--badge-text: #18181b;
+	--card-placeholder-bg: #f4f4f5;
+	--header-bg: color-mix(in srgb, var(--page-bg) 85%, transparent);
+	--nav-hover: #09090b;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		/* Dark mode default (black background) */
+		--page-bg: #000000;
+		--text-primary: #ffffff;
+		--text-secondary: #a1a1aa;
+		--text-muted: #71717a;
+		--border-color: #27272a;
+		--badge-bg: #18181b;
+		--badge-text: #e4e4e7;
+		--card-placeholder-bg: #18181b;
+		--header-bg: color-mix(in srgb, var(--page-bg) 85%, transparent);
+		--nav-hover: #ffffff;
+	}
 }
 
 html,
 body {
 	background-color: var(--page-bg);
-	color: #f4f4f5;
+	color: var(--text-primary);
 	min-height: 100%;
-	transition: background-color 0.3s ease;
+	transition:
+		background-color 0.3s ease,
+		color 0.3s ease;
 }
 
 /* View transitions for image morphing between feed and post */

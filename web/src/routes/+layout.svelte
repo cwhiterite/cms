@@ -25,23 +25,29 @@
 	<title>Inspiration Feed</title>
 </svelte:head>
 
-<div class="min-h-screen text-zinc-100 antialiased" style="background-color: var(--page-bg);">
+<div
+	class="min-h-screen text-[var(--text-primary)] antialiased"
+	style="background-color: var(--page-bg);"
+>
 	<header
-		class="sticky top-0 z-20 border-b border-zinc-800/80 pt-[env(safe-area-inset-top)] backdrop-blur transition-colors duration-300"
-		style="background-color: color-mix(in srgb, var(--page-bg) 88%, transparent);"
+		class="sticky top-0 z-20 border-b border-[var(--border-color)] pt-[env(safe-area-inset-top)] backdrop-blur transition-colors duration-300"
+		style="background-color: var(--header-bg);"
 	>
 		<div class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
-			<a href={resolve('/')} class="text-lg font-semibold tracking-tight text-white">
-				Studio<span class="text-zinc-400">Feed</span>
+			<a
+				href={resolve('/')}
+				class="text-lg font-semibold tracking-tight text-[var(--text-primary)]"
+			>
+				Studio<span class="text-[var(--text-muted)]">Feed</span>
 			</a>
 
-			<nav class="flex flex-wrap items-center gap-2 text-sm text-zinc-400">
-				<a href={resolve('/')} class="px-3 py-1 transition hover:text-white"> All </a>
+			<nav class="flex flex-wrap items-center gap-2 text-sm text-[var(--text-secondary)]">
+				<a href={resolve('/')} class="px-3 py-1 transition hover:text-[var(--nav-hover)]"> All </a>
 				{#each TAGS as tag (tag.value)}
 					<!-- eslint-disable svelte/no-navigation-without-resolve -->
 					<a
 						href={`${resolve('/')}?tag=${encodeURIComponent(tag.value)}`}
-						class="px-3 py-1 transition hover:text-white"
+						class="px-3 py-1 transition hover:text-[var(--nav-hover)]"
 					>
 						{tag.label}
 					</a>
