@@ -6,17 +6,29 @@
 
 	let { data }: PageProps = $props();
 
+	function sanitizeHex(hex?: string): string | null {
+		if (!hex) return null;
+		const clean = hex.trim();
+		return /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(clean) ? clean : null;
+	}
+
 	function isLightColor(hex: string): boolean {
 		const c = hex.replace('#', '');
-		if (c.length < 6) return false;
-		const r = parseInt(c.substring(0, 2), 16) || 0;
-		const g = parseInt(c.substring(2, 4), 16) || 0;
-		const b = parseInt(c.substring(4, 6), 16) || 0;
+		const full =
+			c.length === 3
+				? c
+						.split('')
+						.map((x) => x + x)
+						.join('')
+				: c;
+		const r = parseInt(full.substring(0, 2), 16) || 0;
+		const g = parseInt(full.substring(2, 4), 16) || 0;
+		const b = parseInt(full.substring(4, 6), 16) || 0;
 		const yiq = (r * 299 + g * 587 + b * 114) / 1000;
 		return yiq >= 128;
 	}
 
-	let postBg = $derived(data.post.backgroundColor?.hex);
+	let postBg = $derived(sanitizeHex(data.post.backgroundColor?.hex));
 	let isCustomLight = $derived(postBg ? isLightColor(postBg) : null);
 
 	function formatDate(iso?: string) {
@@ -36,35 +48,6 @@
 	{/if}
 	{#if postBg}
 		<meta name="theme-color" content={postBg} />
-		{#if isCustomLight}
-			{@html `<style>
-				:root {
-					--page-bg: ${postBg};
-					--text-primary: #09090b;
-					--text-secondary: #52525b;
-					--text-muted: #71717a;
-					--border-color: rgba(0, 0, 0, 0.12);
-					--badge-bg: rgba(0, 0, 0, 0.06);
-					--badge-text: #18181b;
-					--header-bg: color-mix(in srgb, ${postBg} 85%, transparent);
-					--nav-hover: #09090b;
-				}
-			</style>`}
-		{:else}
-			{@html `<style>
-				:root {
-					--page-bg: ${postBg};
-					--text-primary: #ffffff;
-					--text-secondary: #a1a1aa;
-					--text-muted: #71717a;
-					--border-color: rgba(255, 255, 255, 0.15);
-					--badge-bg: rgba(255, 255, 255, 0.1);
-					--badge-text: #f4f4f5;
-					--header-bg: color-mix(in srgb, ${postBg} 85%, transparent);
-					--nav-hover: #ffffff;
-				}
-			</style>`}
-		{/if}
 	{/if}
 </svelte:head>
 
