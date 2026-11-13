@@ -1,6 +1,13 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
+html,
+body {
+	background-color: #09090b;
+	color: #f4f4f5;
+	min-height: 100%;
+}
+
 /* View transitions for image morphing between feed and post */
 ::view-transition-old(root),
 ::view-transition-new(root) {

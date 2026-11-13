@@ -41,7 +41,7 @@
 					{/if}
 				</div>
 
-				<h1 class="text-3xl leading-tight font-semibold tracking-tight text-white sm:text-5xl">
+				<h1 class="text-5xl leading-tight font-semibold tracking-tight text-white sm:text-5xl">
 					{data.post.title}
 				</h1>
 

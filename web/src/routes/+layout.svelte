@@ -26,8 +26,10 @@
 </svelte:head>
 
 <div class="min-h-screen bg-zinc-950 text-zinc-100 antialiased">
-	<header class="sticky top-0 z-20 h-16 border-b border-zinc-800/80 bg-zinc-950/90 backdrop-blur">
-		<div class="mx-auto flex h-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
+	<header
+		class="sticky top-0 z-20 border-b border-zinc-800/80 bg-zinc-950/90 pt-[env(safe-area-inset-top)] backdrop-blur"
+	>
+		<div class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
 			<a href={resolve('/')} class="text-lg font-semibold tracking-tight text-white">
 				Studio<span class="text-zinc-400">Feed</span>
 			</a>
@@ -48,7 +50,9 @@
 		</div>
 	</header>
 
-	<main class="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+	<main
+		class="mx-auto max-w-7xl px-4 py-10 pb-[calc(2.5rem+env(safe-area-inset-bottom,0px))] sm:px-6"
+	>
 		{@render children()}
 	</main>
 </div>
