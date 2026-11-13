@@ -55,6 +55,27 @@
 		}
 	});
 
+	let navEl: HTMLElement | undefined = $state();
+	let canScrollLeft = $state(false);
+	let canScrollRight = $state(false);
+
+	function checkScroll() {
+		if (!navEl) return;
+		const { scrollLeft, scrollWidth, clientWidth } = navEl;
+		canScrollLeft = scrollLeft > 6;
+		canScrollRight = scrollLeft < scrollWidth - clientWidth - 6;
+	}
+
+	$effect(() => {
+		if (navEl) {
+			checkScroll();
+			window.addEventListener('resize', checkScroll);
+			return () => {
+				window.removeEventListener('resize', checkScroll);
+			};
+		}
+	});
+
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
 
@@ -115,33 +136,55 @@
 				</nav>
 			</div>
 
-			<!-- Mobile & Tablet horizontal swipe rail (< lg) -->
-			<nav
-				aria-label="Category filters"
-				class="no-scrollbar -mx-4 flex items-center gap-2 overflow-x-auto px-4 pb-2.5 sm:-mx-6 sm:px-6 lg:hidden"
-			>
-				<a
-					href={resolve('/')}
-					class="shrink-0 px-3.5 py-1 text-sm transition {currentTag === ''
-						? 'font-normal text-(--text-primary)'
-						: 'font-normal text-(--text-secondary) hover:text-(--nav-hover)'}"
+			<!-- Mobile & Tablet horizontal swipe rail with edge fade hints (< lg) -->
+			<div class="relative -mx-4 sm:-mx-6 lg:hidden">
+				<!-- Left fade indicator (appears when scrolled right) -->
+				<div
+					aria-hidden="true"
+					class="pointer-events-none absolute top-0 bottom-2.5 left-0 z-10 w-8 transition-opacity duration-200 {canScrollLeft
+						? 'opacity-100'
+						: 'opacity-0'}"
+					style="background: linear-gradient(to right, var(--page-bg), transparent);"
+				></div>
+
+				<!-- Right fade indicator (indicates more links continue off-screen) -->
+				<div
+					aria-hidden="true"
+					class="pointer-events-none absolute top-0 right-0 bottom-2.5 z-10 w-12 transition-opacity duration-200 {canScrollRight
+						? 'opacity-100'
+						: 'opacity-0'}"
+					style="background: linear-gradient(to left, var(--page-bg), transparent);"
+				></div>
+
+				<nav
+					bind:this={navEl}
+					onscroll={checkScroll}
+					aria-label="Category filters"
+					class="no-scrollbar flex items-center gap-2 overflow-x-auto px-4 pb-2.5 sm:px-6"
 				>
-					All
-				</a>
-				{#each TAGS as tag (tag.value)}
-					<!-- eslint-disable svelte/no-navigation-without-resolve -->
 					<a
-						href={`${resolve('/')}?tag=${encodeURIComponent(tag.value)}`}
-						class="shrink-0 px-3.5 py-1 text-sm transition {currentTag === tag.value
+						href={resolve('/')}
+						class="shrink-0 px-3.5 py-1 text-sm transition {currentTag === ''
 							? 'font-normal text-(--text-primary)'
 							: 'font-normal text-(--text-secondary) hover:text-(--nav-hover)'}"
 					>
-						{tag.label}
+						All
 					</a>
-					<!-- eslint-enable svelte/no-navigation-without-resolve -->
-				{/each}
-				<span class="w-2 shrink-0" aria-hidden="true"></span>
-			</nav>
+					{#each TAGS as tag (tag.value)}
+						<!-- eslint-disable svelte/no-navigation-without-resolve -->
+						<a
+							href={`${resolve('/')}?tag=${encodeURIComponent(tag.value)}`}
+							class="shrink-0 px-3.5 py-1 text-sm transition {currentTag === tag.value
+								? 'font-normal text-(--text-primary)'
+								: 'font-normal text-(--text-secondary) hover:text-(--nav-hover)'}"
+						>
+							{tag.label}
+						</a>
+						<!-- eslint-enable svelte/no-navigation-without-resolve -->
+					{/each}
+					<span class="w-4 shrink-0" aria-hidden="true"></span>
+				</nav>
+			</div>
 		</div>
 	</header>
 
