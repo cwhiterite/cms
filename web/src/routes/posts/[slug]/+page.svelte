@@ -108,7 +108,7 @@
 
 		<!-- Right column: fixed/sticky cover image on desktop (>= lg: 1024px) -->
 		{#if data.post.coverImage}
-			<div class="hidden lg:sticky lg:top-24 lg:col-span-5 lg:block lg:self-start">
+			<div class="hidden lg:sticky lg:top-[6.5rem] lg:col-span-5 lg:block lg:self-start">
 				<figure class="overflow-hidden bg-zinc-900">
 					<img
 						src={urlFor(data.post.coverImage).width(1600).url()}
