@@ -44,6 +44,12 @@ export interface PostSummary {
 }
 
 export interface PostDetail extends PostSummary {
+	lightBackgroundColor?: {
+		hex?: string;
+	};
+	darkBackgroundColor?: {
+		hex?: string;
+	};
 	backgroundColor?: {
 		hex?: string;
 	};
@@ -133,6 +139,12 @@ export const postBySlugQuery = `
 		coverImage {
 			...,
 			alt
+		},
+		lightBackgroundColor {
+			hex
+		},
+		darkBackgroundColor {
+			hex
 		},
 		backgroundColor {
 			hex

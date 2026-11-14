@@ -20,14 +20,76 @@
 		/* Dark mode default (black background) */
 		--page-bg: #000000;
 		--text-primary: #ffffff;
-		--text-secondary: #a1a1aa;
-		--text-muted: #71717a;
+		--text-secondary: #c1c1c1;
+		--text-muted: #c1c1c1;
 		--border-color: #27272a;
 		--badge-bg: #18181b;
 		--badge-text: #e4e4e7;
 		--card-placeholder-bg: #18181b;
 		--header-bg: color-mix(in srgb, var(--page-bg) 85%, transparent);
 		--nav-hover: #ffffff;
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	[data-post-light-bg] {
+		--page-bg: var(--post-light-bg);
+		--text-primary: var(--post-light-text-primary);
+		--text-secondary: var(--post-light-text-secondary);
+		--text-muted: var(--post-light-text-muted);
+		--border-color: var(--post-light-border-color);
+		--badge-bg: var(--post-light-badge-bg);
+		--badge-text: var(--post-light-badge-text);
+		--card-placeholder-bg: var(--post-light-card-placeholder-bg);
+		--header-bg: var(--post-light-header-bg);
+		--nav-hover: var(--post-light-nav-hover);
+	}
+
+	[data-post-light-bg] .prose {
+		--tw-prose-body: var(--post-light-prose-body);
+		--tw-prose-headings: var(--post-light-prose-headings);
+		--tw-prose-links: var(--post-light-prose-links);
+		--tw-prose-bold: var(--post-light-prose-bold);
+		--tw-prose-counters: var(--post-light-prose-counters);
+		--tw-prose-bullets: var(--post-light-prose-bullets);
+		--tw-prose-hr: var(--post-light-prose-hr);
+		--tw-prose-quotes: var(--post-light-prose-quotes);
+		--tw-prose-quote-borders: var(--post-light-prose-quote-borders);
+		--tw-prose-captions: var(--post-light-prose-captions);
+		--tw-prose-code: var(--post-light-prose-code);
+		--tw-prose-th-borders: var(--post-light-prose-th-borders);
+		--tw-prose-td-borders: var(--post-light-prose-td-borders);
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	[data-post-dark-bg] {
+		--page-bg: var(--post-dark-bg);
+		--text-primary: var(--post-dark-text-primary);
+		--text-secondary: var(--post-dark-text-secondary);
+		--text-muted: var(--post-dark-text-muted);
+		--border-color: var(--post-dark-border-color);
+		--badge-bg: var(--post-dark-badge-bg);
+		--badge-text: var(--post-dark-badge-text);
+		--card-placeholder-bg: var(--post-dark-card-placeholder-bg);
+		--header-bg: var(--post-dark-header-bg);
+		--nav-hover: var(--post-dark-nav-hover);
+	}
+
+	[data-post-dark-bg] .prose {
+		--tw-prose-body: var(--post-dark-prose-body);
+		--tw-prose-headings: var(--post-dark-prose-headings);
+		--tw-prose-links: var(--post-dark-prose-links);
+		--tw-prose-bold: var(--post-dark-prose-bold);
+		--tw-prose-counters: var(--post-dark-prose-counters);
+		--tw-prose-bullets: var(--post-dark-prose-bullets);
+		--tw-prose-hr: var(--post-dark-prose-hr);
+		--tw-prose-quotes: var(--post-dark-prose-quotes);
+		--tw-prose-quote-borders: var(--post-dark-prose-quote-borders);
+		--tw-prose-captions: var(--post-dark-prose-captions);
+		--tw-prose-code: var(--post-dark-prose-code);
+		--tw-prose-th-borders: var(--post-dark-prose-th-borders);
+		--tw-prose-td-borders: var(--post-dark-prose-td-borders);
 	}
 }
 

@@ -2,6 +2,7 @@
 	import './layout.css';
 	import favicon from '#lib/assets/favicon.svg';
 	import { TAGS, type PostDetail } from '#lib/sanity.ts';
+	import { resolvePostTheme } from '#lib/theme.ts';
 	import { resolve } from '$app/paths';
 	import { onNavigate } from '$app/navigation';
 	import { page } from '$app/state';
@@ -9,50 +10,28 @@
 
 	let { children }: LayoutProps = $props();
 
-	function sanitizeHex(hex?: unknown): string | null {
-		if (typeof hex !== 'string') return null;
-		const clean = hex.trim();
-		return /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(clean) ? clean : null;
-	}
-
-	function isLightColor(hex: string): boolean {
-		const c = hex.replace('#', '');
-		const full =
-			c.length === 3
-				? c
-						.split('')
-						.map((x) => x + x)
-						.join('')
-				: c;
-		const r = parseInt(full.substring(0, 2), 16) || 0;
-		const g = parseInt(full.substring(2, 4), 16) || 0;
-		const b = parseInt(full.substring(4, 6), 16) || 0;
-		const yiq = (r * 299 + g * 587 + b * 114) / 1000;
-		return yiq >= 128;
-	}
-
 	const post = $derived((page.data as { post?: PostDetail })?.post);
-	const postBg = $derived(sanitizeHex(post?.backgroundColor?.hex));
-	const isCustomLight = $derived(postBg ? isLightColor(postBg) : null);
+	const postTheme = $derived(resolvePostTheme(post));
 	const currentTag = $derived(
 		page.url.pathname === '/' ? (page.url.searchParams.get('tag') ?? '') : null
 	);
 
-	const customThemeStyle = $derived(
-		postBg
-			? isCustomLight
-				? `--page-bg: ${postBg}; --text-primary: #09090b; --text-secondary: #52525b; --text-muted: #71717a; --border-color: rgba(0, 0, 0, 0.12); --badge-bg: rgba(0, 0, 0, 0.06); --badge-text: #18181b; --card-placeholder-bg: rgba(0, 0, 0, 0.04); --header-bg: color-mix(in srgb, ${postBg} 85%, transparent); --nav-hover: #09090b;`
-				: `--page-bg: ${postBg}; --text-primary: #ffffff; --text-secondary: #a1a1aa; --text-muted: #71717a; --border-color: rgba(255, 255, 255, 0.15); --badge-bg: rgba(255, 255, 255, 0.1); --badge-text: #f4f4f5; --card-placeholder-bg: rgba(255, 255, 255, 0.06); --header-bg: color-mix(in srgb, ${postBg} 85%, transparent); --nav-hover: #ffffff;`
-			: undefined
-	);
-
 	$effect(() => {
-		if (postBg) {
-			document.documentElement.style.setProperty('--page-bg', postBg);
-			return () => {
-				document.documentElement.style.removeProperty('--page-bg');
-			};
+		const root = document.documentElement;
+		if (postTheme.lightBg) {
+			root.setAttribute('data-post-light-bg', '');
+			root.style.setProperty('--post-light-bg', postTheme.lightBg);
 		}
+		if (postTheme.darkBg) {
+			root.setAttribute('data-post-dark-bg', '');
+			root.style.setProperty('--post-dark-bg', postTheme.darkBg);
+		}
+		return () => {
+			root.removeAttribute('data-post-light-bg');
+			root.style.removeProperty('--post-light-bg');
+			root.removeAttribute('data-post-dark-bg');
+			root.style.removeProperty('--post-dark-bg');
+		};
 	});
 
 	let navEl: HTMLElement | undefined = $state();
@@ -109,14 +88,23 @@
 <svelte:head>
 	<link rel="icon" href={favicon} />
 	<title>Inspiration Feed</title>
-	{#if postBg}
-		<meta name="theme-color" content={postBg} />
-	{/if}
+	<meta
+		name="theme-color"
+		media="(prefers-color-scheme: light)"
+		content={postTheme.lightBg ?? '#ffffff'}
+	/>
+	<meta
+		name="theme-color"
+		media="(prefers-color-scheme: dark)"
+		content={postTheme.darkBg ?? '#000000'}
+	/>
 </svelte:head>
 
 <div
 	class="min-h-screen text-(--text-primary) antialiased transition-colors duration-300"
-	style="background-color: var(--page-bg); {customThemeStyle ?? ''}"
+	data-post-light-bg={postTheme.lightBg ? '' : undefined}
+	data-post-dark-bg={postTheme.darkBg ? '' : undefined}
+	style="background-color: var(--page-bg); {postTheme.styleAttr ?? ''}"
 >
 	<header
 		class="sticky top-0 z-20 border-b border-(--border-color) pt-[env(safe-area-inset-top)] backdrop-blur transition-colors duration-300"
@@ -130,7 +118,7 @@
 				</a>
 
 				<!-- Desktop navigation (>= lg) -->
-				<nav class="hidden items-center gap-1 text-regular text-(--text-secondary) lg:flex">
+				<nav class="hidden items-center gap-1 text-base text-(--text-secondary) lg:flex">
 					<a
 						href={resolve('/')}
 						class="px-3 py-1 transition {currentTag === ''
@@ -178,7 +166,7 @@
 								? `${resolve('/')}?tag=${encodeURIComponent(cat.value)}`
 								: resolve('/')}
 							tabindex={isDuplicate ? -1 : undefined}
-							class="shrink-0 px-3.5 py-1 text-regular transition {currentTag === cat.value
+							class="shrink-0 px-3.5 py-1 text-base transition {currentTag === cat.value
 								? 'font-normal text-(--text-primary)'
 								: 'font-normal text-(--text-secondary) hover:text-(--nav-hover)'}"
 						>

@@ -3,6 +3,15 @@ import {defineArrayMember, defineField, defineType} from 'sanity'
 export const postType = defineType({
   name: 'post',
   type: 'document',
+  fieldsets: [
+    {
+      name: 'backgroundColors',
+      title: 'Post Background Colors',
+      description:
+        'Optional custom background colors for system light and dark mode. Pick visually, type/paste a hex code, or delete/leave blank for the default system theme (#ffffff in light mode, #000000 in dark mode).',
+      options: {columns: 2},
+    },
+  ],
   fields: [
     defineField({
       name: 'title',
@@ -56,13 +65,36 @@ export const postType = defineType({
       ],
     }),
     defineField({
-      name: 'backgroundColor',
-      title: 'Post Background Color',
-      description: 'Optional custom background color for this post page. Pick visually, type/paste a hex code (e.g. #18181b), or delete/leave blank for default system theme (white in light mode, black in dark mode).',
+      name: 'lightBackgroundColor',
+      title: 'System Light Mode',
+      fieldset: 'backgroundColors',
       type: 'color',
       options: {
         disableAlpha: true,
       },
+    }),
+    defineField({
+      name: 'darkBackgroundColor',
+      title: 'System Dark Mode',
+      fieldset: 'backgroundColors',
+      type: 'color',
+      options: {
+        disableAlpha: true,
+      },
+    }),
+    defineField({
+      name: 'backgroundColor',
+      title: 'Post Background Color (Deprecated)',
+      type: 'color',
+      options: {
+        disableAlpha: true,
+      },
+      deprecated: {
+        reason: 'Use the System Light Mode and System Dark Mode background color fields instead.',
+      },
+      readOnly: true,
+      hidden: ({value}) => value === undefined,
+      initialValue: undefined,
     }),
     defineField({
       name: 'gallery',

@@ -6,31 +6,6 @@
 
 	let { data }: PageProps = $props();
 
-	function sanitizeHex(hex?: string): string | null {
-		if (!hex) return null;
-		const clean = hex.trim();
-		return /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(clean) ? clean : null;
-	}
-
-	function isLightColor(hex: string): boolean {
-		const c = hex.replace('#', '');
-		const full =
-			c.length === 3
-				? c
-						.split('')
-						.map((x) => x + x)
-						.join('')
-				: c;
-		const r = parseInt(full.substring(0, 2), 16) || 0;
-		const g = parseInt(full.substring(2, 4), 16) || 0;
-		const b = parseInt(full.substring(4, 6), 16) || 0;
-		const yiq = (r * 299 + g * 587 + b * 114) / 1000;
-		return yiq >= 128;
-	}
-
-	let postBg = $derived(sanitizeHex(data.post.backgroundColor?.hex));
-	let isCustomLight = $derived(postBg ? isLightColor(postBg) : null);
-
 	function formatDate(iso?: string) {
 		if (!iso) return '';
 		return new Date(iso).toLocaleDateString('en-US', {
@@ -45,9 +20,6 @@
 	<title>{data.post.title}</title>
 	{#if data.post.excerpt}
 		<meta name="description" content={data.post.excerpt} />
-	{/if}
-	{#if postBg}
-		<meta name="theme-color" content={postBg} />
 	{/if}
 </svelte:head>
 
@@ -93,13 +65,7 @@
 			{/if}
 
 			{#if Array.isArray(data.post.body) ? data.post.body.length > 0 : Boolean(data.post.body)}
-				<div
-					class={postBg
-						? isCustomLight
-							? 'prose prose-lg max-w-none prose-headings:font-semibold'
-							: 'prose prose-lg max-w-none prose-invert prose-headings:font-semibold'
-						: 'prose prose-lg max-w-none dark:prose-invert prose-headings:font-semibold'}
-				>
+				<div class="prose prose-lg max-w-none dark:prose-invert prose-headings:font-semibold">
 					<PortableText value={data.post.body} components={{ types: { image: PortableImage } }} />
 				</div>
 			{/if}

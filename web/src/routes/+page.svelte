@@ -16,11 +16,11 @@
 </script>
 
 <section class="space-y-8">
-	<div class="flex items-baseline justify-between border-b border-[var(--border-color)] pb-4">
-		<h1 class="text-2xl font-semibold tracking-tight text-[var(--text-primary)]">
+	<div class="flex items-baseline justify-between border-b border-(--border-color) pb-4">
+		<h1 class="text-2xl font-semibold tracking-tight text-(--text-primary)">
 			{tagLabel(data.activeTag) || 'Latest Inspiration'}
 		</h1>
-		<span class="text-xs tracking-wider text-[var(--text-muted)] uppercase">
+		<span class="text-xs tracking-wider text-(--text-muted) uppercase">
 			{data.posts.length}
 			{data.posts.length === 1 ? 'post' : 'posts'}
 		</span>
@@ -34,8 +34,8 @@
 					<a href={resolve('/posts/[slug]', { slug: post.slug })} class="block space-y-3">
 						<div
 							class={isWide
-								? 'aspect-square overflow-hidden bg-[var(--card-placeholder-bg)] lg:aspect-2/1'
-								: 'aspect-square overflow-hidden bg-[var(--card-placeholder-bg)]'}
+								? 'aspect-square overflow-hidden bg-(--card-placeholder-bg) lg:aspect-2/1'
+								: 'aspect-square overflow-hidden bg-(--card-placeholder-bg)'}
 						>
 							{#if post.coverImage}
 								<img
@@ -50,19 +50,17 @@
 									class="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]"
 								/>
 							{:else}
-								<div
-									class="flex h-full items-center justify-center text-sm text-[var(--text-muted)]"
-								>
+								<div class="flex h-full items-center justify-center text-sm text-(--text-muted)">
 									No cover image
 								</div>
 							{/if}
 						</div>
 
 						<div class="space-y-2.5">
-							<div class="flex items-center gap-2 text-xs text-[var(--text-muted)]">
+							<div class="flex items-center gap-2 text-xs text-(--text-muted)">
 								{#if post.tags?.length}
 									{#each post.tags as tag (tag)}
-										<span class="bg-[var(--badge-bg)] px-2.5 py-0.5 text-[var(--badge-text)]"
+										<span class="bg-(--badge-bg) px-2.5 py-0.5 text-(--badge-text)"
 											>{tagLabel(tag).toUpperCase()}</span
 										>
 									{/each}
@@ -75,13 +73,13 @@
 							</div>
 
 							<h2
-								class="text-lg leading-snug font-medium text-[var(--text-primary)] transition group-hover:text-[var(--text-secondary)]"
+								class="text-lg leading-snug font-medium text-(--text-primary) transition group-hover:text-(--text-secondary)"
 							>
 								{post.title}
 							</h2>
 
 							{#if post.excerpt}
-								<p class="line-clamp-2 text-sm text-[var(--text-secondary)]">{post.excerpt}</p>
+								<p class="line-clamp-2 text-sm text-(--text-secondary)">{post.excerpt}</p>
 							{/if}
 						</div>
 					</a>
@@ -89,17 +87,15 @@
 			{/each}
 		</div>
 	{:else}
-		<div
-			class="border border-dashed border-[var(--border-color)] bg-[var(--badge-bg)]/40 p-12 text-center"
-		>
-			<p class="text-[var(--text-primary)]">No published posts found yet.</p>
-			<p class="mt-2 text-sm text-[var(--text-muted)]">
+		<div class="border border-dashed border-(--border-color) bg-(--badge-bg)/40 p-12 text-center">
+			<p class="text-(--text-primary)">No published posts found yet.</p>
+			<p class="mt-2 text-sm text-(--text-muted)">
 				Publish your first post in
 				<a
 					href="https://cwhiterite.sanity.studio/"
 					target="_blank"
 					rel="noreferrer"
-					class="text-[var(--text-primary)] underline underline-offset-4 hover:opacity-80"
+					class="text-(--text-primary) underline underline-offset-4 hover:opacity-80"
 				>
 					Sanity Studio
 				</a>
