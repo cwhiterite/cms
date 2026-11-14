@@ -85,12 +85,8 @@ function buildModeVars(prefix: 'light' | 'dark', bg: string, isBright: boolean):
 }
 
 export function resolvePostTheme(post?: PostDetail): PostTheme {
-	const explicitLight = sanitizeHex(post?.lightBackgroundColor?.hex);
-	const explicitDark = sanitizeHex(post?.darkBackgroundColor?.hex);
-	const legacyBg = !explicitLight && !explicitDark ? sanitizeHex(post?.backgroundColor?.hex) : null;
-
-	const lightBg = explicitLight ?? legacyBg;
-	const darkBg = explicitDark ?? legacyBg;
+	const lightBg = sanitizeHex(post?.lightBackgroundColor?.hex);
+	const darkBg = sanitizeHex(post?.darkBackgroundColor?.hex);
 
 	const declarations: string[] = [];
 	if (lightBg) {

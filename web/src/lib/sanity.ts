@@ -50,9 +50,6 @@ export interface PostDetail extends PostSummary {
 	darkBackgroundColor?: {
 		hex?: string;
 	};
-	backgroundColor?: {
-		hex?: string;
-	};
 	gallery?: SanityGalleryItem[];
 	r2Gallery?: R2GalleryItem[];
 	body?: InputValue;
@@ -144,9 +141,6 @@ export const postBySlugQuery = `
 			hex
 		},
 		darkBackgroundColor {
-			hex
-		},
-		backgroundColor {
 			hex
 		},
 		gallery[] {

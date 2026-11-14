@@ -9,7 +9,6 @@ export const postType = defineType({
       title: 'Post Background Colors',
       description:
         'Optional custom background colors for system light and dark mode. Pick visually, type/paste a hex code, or delete/leave blank for the default system theme (#ffffff in light mode, #000000 in dark mode).',
-      options: {columns: 2},
     },
   ],
   fields: [
@@ -81,20 +80,6 @@ export const postType = defineType({
       options: {
         disableAlpha: true,
       },
-    }),
-    defineField({
-      name: 'backgroundColor',
-      title: 'Post Background Color (Deprecated)',
-      type: 'color',
-      options: {
-        disableAlpha: true,
-      },
-      deprecated: {
-        reason: 'Use the System Light Mode and System Dark Mode background color fields instead.',
-      },
-      readOnly: true,
-      hidden: ({value}) => value === undefined,
-      initialValue: undefined,
     }),
     defineField({
       name: 'gallery',
