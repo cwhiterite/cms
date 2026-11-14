@@ -18,18 +18,18 @@
 
 	$effect(() => {
 		const root = document.documentElement;
-		if (postTheme.lightBg) {
-			root.setAttribute('data-post-light-bg', '');
+		if (postTheme.lightBg && postTheme.lightTone) {
+			root.setAttribute('data-post-light-tone', postTheme.lightTone);
 			root.style.setProperty('--post-light-bg', postTheme.lightBg);
 		}
-		if (postTheme.darkBg) {
-			root.setAttribute('data-post-dark-bg', '');
+		if (postTheme.darkBg && postTheme.darkTone) {
+			root.setAttribute('data-post-dark-tone', postTheme.darkTone);
 			root.style.setProperty('--post-dark-bg', postTheme.darkBg);
 		}
 		return () => {
-			root.removeAttribute('data-post-light-bg');
+			root.removeAttribute('data-post-light-tone');
 			root.style.removeProperty('--post-light-bg');
-			root.removeAttribute('data-post-dark-bg');
+			root.removeAttribute('data-post-dark-tone');
 			root.style.removeProperty('--post-dark-bg');
 		};
 	});
@@ -102,8 +102,8 @@
 
 <div
 	class="min-h-screen text-(--text-primary) antialiased transition-colors duration-300"
-	data-post-light-bg={postTheme.lightBg ? '' : undefined}
-	data-post-dark-bg={postTheme.darkBg ? '' : undefined}
+	data-post-light-tone={postTheme.lightTone ?? undefined}
+	data-post-dark-tone={postTheme.darkTone ?? undefined}
 	style="background-color: var(--page-bg); {postTheme.styleAttr ?? ''}"
 >
 	<header

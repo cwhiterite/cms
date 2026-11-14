@@ -2,94 +2,140 @@
 @plugin '@tailwindcss/typography';
 
 :root {
-	/* Light mode default (white background) */
-	--page-bg: #ffffff;
-	--text-primary: #09090b;
-	--text-secondary: #52525b;
-	--text-muted: #71717a;
-	--border-color: #e4e4e7;
-	--badge-bg: #f4f4f5;
-	--badge-text: #18181b;
-	--card-placeholder-bg: #f4f4f5;
+	/* Shared Light Theme Palette (single source of truth for light backgrounds) */
+	--light-page-bg: #ffffff;
+	--light-text-primary: #09090b;
+	--light-text-secondary: #52525b;
+	--light-text-muted: #18181b;
+	--light-border-color: #e4e4e7;
+	--light-badge-bg: #f4f4f5;
+	--light-badge-text: #18181b;
+	--light-card-placeholder-bg: #f4f4f5;
+	--light-nav-hover: #09090b;
+
+	/* Shared Dark Theme Palette (single source of truth for dark backgrounds) */
+	--dark-page-bg: #000000;
+	--dark-text-primary: #ffffff;
+	--dark-text-secondary: #c1c1c1;
+	--dark-text-muted: #c1c1c1;
+	--dark-border-color: #27272a;
+	--dark-badge-bg: #18181b;
+	--dark-badge-text: #e4e4e7;
+	--dark-card-placeholder-bg: #18181b;
+	--dark-nav-hover: #ffffff;
+
+	/* Light mode default */
+	--page-bg: var(--light-page-bg);
+	--text-primary: var(--light-text-primary);
+	--text-secondary: var(--light-text-secondary);
+	--text-muted: var(--light-text-muted);
+	--border-color: var(--light-border-color);
+	--badge-bg: var(--light-badge-bg);
+	--badge-text: var(--light-badge-text);
+	--card-placeholder-bg: var(--light-card-placeholder-bg);
 	--header-bg: color-mix(in srgb, var(--page-bg) 85%, transparent);
-	--nav-hover: #09090b;
+	--nav-hover: var(--light-nav-hover);
 }
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		/* Dark mode default (black background) */
-		--page-bg: #000000;
-		--text-primary: #ffffff;
-		--text-secondary: #c1c1c1;
-		--text-muted: #c1c1c1;
-		--border-color: #27272a;
-		--badge-bg: #18181b;
-		--badge-text: #e4e4e7;
-		--card-placeholder-bg: #18181b;
+		/* Dark mode default */
+		--page-bg: var(--dark-page-bg);
+		--text-primary: var(--dark-text-primary);
+		--text-secondary: var(--dark-text-secondary);
+		--text-muted: var(--dark-text-muted);
+		--border-color: var(--dark-border-color);
+		--badge-bg: var(--dark-badge-bg);
+		--badge-text: var(--dark-badge-text);
+		--card-placeholder-bg: var(--dark-card-placeholder-bg);
 		--header-bg: color-mix(in srgb, var(--page-bg) 85%, transparent);
-		--nav-hover: #ffffff;
+		--nav-hover: var(--dark-nav-hover);
 	}
 }
 
 @media (prefers-color-scheme: light) {
-	[data-post-light-bg] {
+	[data-post-light-tone] {
 		--page-bg: var(--post-light-bg);
-		--text-primary: var(--post-light-text-primary);
-		--text-secondary: var(--post-light-text-secondary);
-		--text-muted: var(--post-light-text-muted);
-		--border-color: var(--post-light-border-color);
-		--badge-bg: var(--post-light-badge-bg);
-		--badge-text: var(--post-light-badge-text);
-		--card-placeholder-bg: var(--post-light-card-placeholder-bg);
-		--header-bg: var(--post-light-header-bg);
-		--nav-hover: var(--post-light-nav-hover);
+		--header-bg: color-mix(in srgb, var(--page-bg) 85%, transparent);
 	}
 
-	[data-post-light-bg] .prose {
-		--tw-prose-body: var(--post-light-prose-body);
-		--tw-prose-headings: var(--post-light-prose-headings);
-		--tw-prose-links: var(--post-light-prose-links);
-		--tw-prose-bold: var(--post-light-prose-bold);
-		--tw-prose-counters: var(--post-light-prose-counters);
-		--tw-prose-bullets: var(--post-light-prose-bullets);
-		--tw-prose-hr: var(--post-light-prose-hr);
-		--tw-prose-quotes: var(--post-light-prose-quotes);
-		--tw-prose-quote-borders: var(--post-light-prose-quote-borders);
-		--tw-prose-captions: var(--post-light-prose-captions);
-		--tw-prose-code: var(--post-light-prose-code);
-		--tw-prose-th-borders: var(--post-light-prose-th-borders);
-		--tw-prose-td-borders: var(--post-light-prose-td-borders);
+	[data-post-light-tone='light'] {
+		--border-color: rgba(0, 0, 0, 0.12);
+		--badge-bg: rgba(0, 0, 0, 0.06);
+		--card-placeholder-bg: rgba(0, 0, 0, 0.04);
+	}
+
+	[data-post-light-tone='dark'] {
+		--text-primary: var(--dark-text-primary);
+		--text-secondary: var(--dark-text-secondary);
+		--text-muted: var(--dark-text-muted);
+		--border-color: rgba(255, 255, 255, 0.15);
+		--badge-bg: rgba(255, 255, 255, 0.1);
+		--badge-text: var(--dark-badge-text);
+		--card-placeholder-bg: rgba(255, 255, 255, 0.06);
+		--nav-hover: var(--dark-nav-hover);
+	}
+
+	[data-post-light-tone='dark'] .prose {
+		--tw-prose-body: var(--tw-prose-invert-body);
+		--tw-prose-headings: var(--tw-prose-invert-headings);
+		--tw-prose-lead: var(--tw-prose-invert-lead);
+		--tw-prose-links: var(--tw-prose-invert-links);
+		--tw-prose-bold: var(--tw-prose-invert-bold);
+		--tw-prose-counters: var(--tw-prose-invert-counters);
+		--tw-prose-bullets: var(--tw-prose-invert-bullets);
+		--tw-prose-hr: var(--tw-prose-invert-hr);
+		--tw-prose-quotes: var(--tw-prose-invert-quotes);
+		--tw-prose-quote-borders: var(--tw-prose-invert-quote-borders);
+		--tw-prose-captions: var(--tw-prose-invert-captions);
+		--tw-prose-kbd: var(--tw-prose-invert-kbd);
+		--tw-prose-kbd-shadows: var(--tw-prose-invert-kbd-shadows);
+		--tw-prose-code: var(--tw-prose-invert-code);
+		--tw-prose-pre-code: var(--tw-prose-invert-pre-code);
+		--tw-prose-pre-bg: var(--tw-prose-invert-pre-bg);
+		--tw-prose-th-borders: var(--tw-prose-invert-th-borders);
+		--tw-prose-td-borders: var(--tw-prose-invert-td-borders);
 	}
 }
 
 @media (prefers-color-scheme: dark) {
-	[data-post-dark-bg] {
+	[data-post-dark-tone] {
 		--page-bg: var(--post-dark-bg);
-		--text-primary: var(--post-dark-text-primary);
-		--text-secondary: var(--post-dark-text-secondary);
-		--text-muted: var(--post-dark-text-muted);
-		--border-color: var(--post-dark-border-color);
-		--badge-bg: var(--post-dark-badge-bg);
-		--badge-text: var(--post-dark-badge-text);
-		--card-placeholder-bg: var(--post-dark-card-placeholder-bg);
-		--header-bg: var(--post-dark-header-bg);
-		--nav-hover: var(--post-dark-nav-hover);
+		--header-bg: color-mix(in srgb, var(--page-bg) 85%, transparent);
 	}
 
-	[data-post-dark-bg] .prose {
-		--tw-prose-body: var(--post-dark-prose-body);
-		--tw-prose-headings: var(--post-dark-prose-headings);
-		--tw-prose-links: var(--post-dark-prose-links);
-		--tw-prose-bold: var(--post-dark-prose-bold);
-		--tw-prose-counters: var(--post-dark-prose-counters);
-		--tw-prose-bullets: var(--post-dark-prose-bullets);
-		--tw-prose-hr: var(--post-dark-prose-hr);
-		--tw-prose-quotes: var(--post-dark-prose-quotes);
-		--tw-prose-quote-borders: var(--post-dark-prose-quote-borders);
-		--tw-prose-captions: var(--post-dark-prose-captions);
-		--tw-prose-code: var(--post-dark-prose-code);
-		--tw-prose-th-borders: var(--post-dark-prose-th-borders);
-		--tw-prose-td-borders: var(--post-dark-prose-td-borders);
+	[data-post-dark-tone='dark'] {
+		--border-color: rgba(255, 255, 255, 0.15);
+		--badge-bg: rgba(255, 255, 255, 0.1);
+		--card-placeholder-bg: rgba(255, 255, 255, 0.06);
+	}
+
+	[data-post-dark-tone='light'] {
+		--text-primary: var(--light-text-primary);
+		--text-secondary: var(--light-text-secondary);
+		--text-muted: var(--light-text-muted);
+		--border-color: rgba(0, 0, 0, 0.12);
+		--badge-bg: rgba(0, 0, 0, 0.06);
+		--badge-text: var(--light-badge-text);
+		--card-placeholder-bg: rgba(0, 0, 0, 0.04);
+		--nav-hover: var(--light-nav-hover);
+	}
+
+	[data-post-dark-tone='light'] .prose {
+		--tw-prose-body: var(--light-text-secondary);
+		--tw-prose-headings: var(--light-text-primary);
+		--tw-prose-lead: var(--light-text-secondary);
+		--tw-prose-links: var(--light-text-primary);
+		--tw-prose-bold: var(--light-text-primary);
+		--tw-prose-counters: var(--light-text-muted);
+		--tw-prose-bullets: var(--light-text-muted);
+		--tw-prose-hr: rgba(0, 0, 0, 0.12);
+		--tw-prose-quotes: var(--light-text-primary);
+		--tw-prose-quote-borders: rgba(0, 0, 0, 0.15);
+		--tw-prose-captions: var(--light-text-muted);
+		--tw-prose-code: var(--light-text-primary);
+		--tw-prose-th-borders: rgba(0, 0, 0, 0.2);
+		--tw-prose-td-borders: rgba(0, 0, 0, 0.12);
 	}
 }
 
