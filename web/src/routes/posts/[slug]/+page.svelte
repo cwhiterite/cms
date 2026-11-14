@@ -65,7 +65,7 @@
 			{/if}
 
 			{#if Array.isArray(data.post.body) ? data.post.body.length > 0 : Boolean(data.post.body)}
-				<div class="prose prose-lg max-w-none dark:prose-invert prose-headings:font-semibold">
+				<div class="prose prose-lg max-w-none prose-headings:font-semibold">
 					<PortableText value={data.post.body} components={{ types: { image: PortableImage } }} />
 				</div>
 			{/if}

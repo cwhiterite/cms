@@ -16,8 +16,8 @@
 	/* Shared Dark Theme Palette (single source of truth for dark backgrounds) */
 	--dark-page-bg: #000000;
 	--dark-text-primary: #ffffff;
-	--dark-text-secondary: #c1c1c1;
-	--dark-text-muted: #c1c1c1;
+	--dark-text-secondary: #e7e4e4;
+	--dark-text-muted: #e4e4e7;
 	--dark-border-color: #27272a;
 	--dark-badge-bg: #18181b;
 	--dark-badge-text: #e4e4e7;
@@ -75,27 +75,6 @@
 		--card-placeholder-bg: rgba(255, 255, 255, 0.06);
 		--nav-hover: var(--dark-nav-hover);
 	}
-
-	[data-post-light-tone='dark'] .prose {
-		--tw-prose-body: var(--tw-prose-invert-body);
-		--tw-prose-headings: var(--tw-prose-invert-headings);
-		--tw-prose-lead: var(--tw-prose-invert-lead);
-		--tw-prose-links: var(--tw-prose-invert-links);
-		--tw-prose-bold: var(--tw-prose-invert-bold);
-		--tw-prose-counters: var(--tw-prose-invert-counters);
-		--tw-prose-bullets: var(--tw-prose-invert-bullets);
-		--tw-prose-hr: var(--tw-prose-invert-hr);
-		--tw-prose-quotes: var(--tw-prose-invert-quotes);
-		--tw-prose-quote-borders: var(--tw-prose-invert-quote-borders);
-		--tw-prose-captions: var(--tw-prose-invert-captions);
-		--tw-prose-kbd: var(--tw-prose-invert-kbd);
-		--tw-prose-kbd-shadows: var(--tw-prose-invert-kbd-shadows);
-		--tw-prose-code: var(--tw-prose-invert-code);
-		--tw-prose-pre-code: var(--tw-prose-invert-pre-code);
-		--tw-prose-pre-bg: var(--tw-prose-invert-pre-bg);
-		--tw-prose-th-borders: var(--tw-prose-invert-th-borders);
-		--tw-prose-td-borders: var(--tw-prose-invert-td-borders);
-	}
 }
 
 @media (prefers-color-scheme: dark) {
@@ -120,23 +99,27 @@
 		--card-placeholder-bg: rgba(0, 0, 0, 0.04);
 		--nav-hover: var(--light-nav-hover);
 	}
+}
 
-	[data-post-dark-tone='light'] .prose {
-		--tw-prose-body: var(--light-text-secondary);
-		--tw-prose-headings: var(--light-text-primary);
-		--tw-prose-lead: var(--light-text-secondary);
-		--tw-prose-links: var(--light-text-primary);
-		--tw-prose-bold: var(--light-text-primary);
-		--tw-prose-counters: var(--light-text-muted);
-		--tw-prose-bullets: var(--light-text-muted);
-		--tw-prose-hr: rgba(0, 0, 0, 0.12);
-		--tw-prose-quotes: var(--light-text-primary);
-		--tw-prose-quote-borders: rgba(0, 0, 0, 0.15);
-		--tw-prose-captions: var(--light-text-muted);
-		--tw-prose-code: var(--light-text-primary);
-		--tw-prose-th-borders: rgba(0, 0, 0, 0.2);
-		--tw-prose-td-borders: rgba(0, 0, 0, 0.12);
-	}
+.prose {
+	--tw-prose-body: var(--text-secondary);
+	--tw-prose-headings: var(--text-primary);
+	--tw-prose-lead: var(--text-secondary);
+	--tw-prose-links: var(--text-primary);
+	--tw-prose-bold: var(--text-primary);
+	--tw-prose-counters: var(--text-muted);
+	--tw-prose-bullets: var(--text-muted);
+	--tw-prose-hr: var(--border-color);
+	--tw-prose-quotes: var(--text-primary);
+	--tw-prose-quote-borders: var(--border-color);
+	--tw-prose-captions: var(--text-muted);
+	--tw-prose-kbd: var(--text-primary);
+	--tw-prose-kbd-shadows: color-mix(in srgb, var(--text-primary) 10%, transparent);
+	--tw-prose-code: var(--text-primary);
+	--tw-prose-pre-code: var(--text-primary);
+	--tw-prose-pre-bg: var(--badge-bg);
+	--tw-prose-th-borders: var(--border-color);
+	--tw-prose-td-borders: var(--border-color);
 }
 
 html,
