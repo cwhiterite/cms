@@ -20,7 +20,7 @@
 		<h1 class="text-2xl font-semibold tracking-tight text-(--text-primary)">
 			{tagLabel(data.activeTag) || 'Latest Inspiration'}
 		</h1>
-		<span class="text-xs tracking-wider text-(--text-muted) uppercase">
+		<span class="text-xs tracking-wider text-(--text-secondary) uppercase">
 			{data.posts.length}
 			{data.posts.length === 1 ? 'post' : 'posts'}
 		</span>
@@ -50,14 +50,16 @@
 									class="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]"
 								/>
 							{:else}
-								<div class="flex h-full items-center justify-center text-sm text-(--text-muted)">
+								<div
+									class="flex h-full items-center justify-center text-sm text-(--text-secondary)"
+								>
 									No cover image
 								</div>
 							{/if}
 						</div>
 
 						<div class="space-y-2.5">
-							<div class="flex items-center gap-2 text-xs text-(--text-muted)">
+							<div class="flex items-center gap-2 text-xs text-(--text-secondary)">
 								{#if post.tags?.length}
 									{#each post.tags as tag (tag)}
 										<span class="bg-(--badge-bg) px-2.5 py-0.5 text-(--badge-text)"
@@ -89,7 +91,7 @@
 	{:else}
 		<div class="border border-dashed border-(--border-color) bg-(--badge-bg)/40 p-12 text-center">
 			<p class="text-(--text-primary)">No published posts found yet.</p>
-			<p class="mt-2 text-sm text-(--text-muted)">
+			<p class="mt-2 text-sm text-(--text-secondary)">
 				Publish your first post in
 				<a
 					href="https://cwhiterite.sanity.studio/"

@@ -114,7 +114,7 @@
 			<!-- Top row: logo + desktop links (>= lg: 1024px) -->
 			<div class="flex h-14 items-center justify-between lg:h-16">
 				<a href={resolve('/')} class="text-lg font-semibold tracking-tight text-(--text-primary)">
-					Studio<span class="text-(--text-muted)">Feed</span>
+					Studio<span class="text-(--text-secondary)">Feed</span>
 				</a>
 
 				<!-- Desktop navigation (>= lg) -->

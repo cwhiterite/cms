@@ -4,20 +4,18 @@
 :root {
 	/* Shared Light Theme Palette (single source of truth for light backgrounds) */
 	--light-page-bg: #ffffff;
-	--light-text-primary: #09090b;
+	--light-text-primary: #0e0e0e;
 	--light-text-secondary: #52525b;
-	--light-text-muted: #18181b;
 	--light-border-color: #e4e4e7;
-	--light-badge-bg: #f4f4f5;
-	--light-badge-text: #18181b;
+	--light-badge-bg: #e9e9e9;
+	--light-badge-text: #0e0e0e;
 	--light-card-placeholder-bg: #f4f4f5;
-	--light-nav-hover: #09090b;
+	--light-nav-hover: #0e0e0e;
 
 	/* Shared Dark Theme Palette (single source of truth for dark backgrounds) */
-	--dark-page-bg: #000000;
+	--dark-page-bg: #0e0e0e;
 	--dark-text-primary: #ffffff;
-	--dark-text-secondary: #e7e4e4;
-	--dark-text-muted: #e4e4e7;
+	--dark-text-secondary: #e4e4e7;
 	--dark-border-color: #27272a;
 	--dark-badge-bg: #18181b;
 	--dark-badge-text: #e4e4e7;
@@ -28,7 +26,6 @@
 	--page-bg: var(--light-page-bg);
 	--text-primary: var(--light-text-primary);
 	--text-secondary: var(--light-text-secondary);
-	--text-muted: var(--light-text-muted);
 	--border-color: var(--light-border-color);
 	--badge-bg: var(--light-badge-bg);
 	--badge-text: var(--light-badge-text);
@@ -43,7 +40,6 @@
 		--page-bg: var(--dark-page-bg);
 		--text-primary: var(--dark-text-primary);
 		--text-secondary: var(--dark-text-secondary);
-		--text-muted: var(--dark-text-muted);
 		--border-color: var(--dark-border-color);
 		--badge-bg: var(--dark-badge-bg);
 		--badge-text: var(--dark-badge-text);
@@ -68,7 +64,6 @@
 	[data-post-light-tone='dark'] {
 		--text-primary: var(--dark-text-primary);
 		--text-secondary: var(--dark-text-secondary);
-		--text-muted: var(--dark-text-muted);
 		--border-color: rgba(255, 255, 255, 0.15);
 		--badge-bg: rgba(255, 255, 255, 0.1);
 		--badge-text: var(--dark-badge-text);
@@ -92,7 +87,6 @@
 	[data-post-dark-tone='light'] {
 		--text-primary: var(--light-text-primary);
 		--text-secondary: var(--light-text-secondary);
-		--text-muted: var(--light-text-muted);
 		--border-color: rgba(0, 0, 0, 0.12);
 		--badge-bg: rgba(0, 0, 0, 0.06);
 		--badge-text: var(--light-badge-text);
@@ -107,12 +101,12 @@
 	--tw-prose-lead: var(--text-secondary);
 	--tw-prose-links: var(--text-primary);
 	--tw-prose-bold: var(--text-primary);
-	--tw-prose-counters: var(--text-muted);
-	--tw-prose-bullets: var(--text-muted);
+	--tw-prose-counters: var(--text-secondary);
+	--tw-prose-bullets: var(--text-secondary);
 	--tw-prose-hr: var(--border-color);
 	--tw-prose-quotes: var(--text-primary);
 	--tw-prose-quote-borders: var(--border-color);
-	--tw-prose-captions: var(--text-muted);
+	--tw-prose-captions: var(--text-secondary);
 	--tw-prose-kbd: var(--text-primary);
 	--tw-prose-kbd-shadows: color-mix(in srgb, var(--text-primary) 10%, transparent);
 	--tw-prose-code: var(--text-primary);

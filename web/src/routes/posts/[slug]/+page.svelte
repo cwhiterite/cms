@@ -29,7 +29,7 @@
 		<div class={data.post.coverImage ? 'space-y-10 lg:col-span-5' : 'space-y-10'}>
 			<header class="space-y-4">
 				<div
-					class="flex flex-wrap items-center gap-2 text-xs tracking-wider text-(--text-muted) uppercase"
+					class="flex flex-wrap items-center gap-2 text-xs tracking-wider text-(--text-secondary) uppercase"
 				>
 					{#if data.post.tags?.length}
 						{#each data.post.tags as tag (tag)}
@@ -81,7 +81,7 @@
 								class="w-full bg-(--card-placeholder-bg) object-cover"
 							/>
 							{#if item.caption}
-								<figcaption class="text-center text-sm text-(--text-muted)">
+								<figcaption class="text-center text-sm text-(--text-secondary)">
 									{item.caption}
 								</figcaption>
 							{/if}
@@ -101,7 +101,7 @@
 								class="w-full bg-(--card-placeholder-bg) object-cover"
 							/>
 							{#if item.caption}
-								<figcaption class="text-center text-sm text-(--text-muted)">
+								<figcaption class="text-center text-sm text-(--text-secondary)">
 									{item.caption}
 								</figcaption>
 							{/if}
